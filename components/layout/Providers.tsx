@@ -1,32 +1,36 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
-import { ensureGsap } from '@/lib/gsap';
-import { initLenis, destroyLenis } from '@/lib/lenis';
-import { sound } from '@/lib/sound';
 
 /**
- * Single client-side mount point for all the libraries that require
- * a browser: Lenis smooth scroll, GSAP + ScrollTrigger, Howler sound,
- * and any other future world-level providers.
- *
- * Wrapped around {children} inside app/layout.tsx so every Scene
- * component can rely on these being initialized.
+ * Client-side providers. Heavy libraries (Lenis, GSAP, Howler) are
+ * imported inside the useEffect rather than at module top so any
+ * import-time failure stays isolated — the rest of the page still
+ * renders even if smooth scroll or audio cannot initialize.
  */
 export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
-    ensureGsap();
-    initLenis();
-    sound.preload([
-      'ambient-forest',
-      'crickets',
-      'wind-trees',
-      'ui-whoosh',
-    ]);
+    let cleanup: (() => void) | undefined;
 
-    return () => {
-      destroyLenis();
-    };
+    (async () => {
+      try {
+        const [{ ensureGsap }, { initLenis, destroyLenis }, { sound }] = await Promise.all([
+          import('@/lib/gsap'),
+          import('@/lib/lenis'),
+          import('@/lib/sound'),
+        ]);
+
+        ensureGsap();
+        initLenis();
+        sound.preload(['ambient-forest', 'crickets', 'wind-trees', 'ui-whoosh']);
+
+        cleanup = () => destroyLenis();
+      } catch (err) {
+        console.warn('[Providers] init failed — site renders without smooth scroll / sound:', err);
+      }
+    })();
+
+    return () => { cleanup?.(); };
   }, []);
 
   return <>{children}</>;

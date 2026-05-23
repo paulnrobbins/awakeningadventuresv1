@@ -5,23 +5,15 @@ import './globals.css';
 import { Providers } from '@/components/layout/Providers';
 
 /**
- * Fonts are pulled at build time by next/font/google — no manual
- * .woff2 files in /public/fonts. Two variable fonts, both free, both
- * off the Pillar 1 blacklist (no Inter, Roboto, Arial, Space Grotesk,
- * Montserrat, Poppins, Lato), neither used on recent KDS projects
- * (Fraunces / Reckless Neue / Instrument Serif).
- *
- * Bricolage Grotesque (display) — variable grotesk with character,
- * opsz axis so the hero 16vw sizes get proper optical scaling.
- * Manrope (body) — humanist variable geometric. Cleaner than Inter,
- * warmer than General Sans, ships with all weights in one file.
+ * Fonts pulled at build time via next/font/google. No `axes` config —
+ * simpler is more portable across Next.js minor versions. Both fonts
+ * ship as variable, so weight ranges work automatically.
  */
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  axes: ['opsz', 'wdth'],
 });
 
 const body = Manrope({
@@ -57,9 +49,7 @@ export const metadata: Metadata = {
     title: 'Awakening Adventures',
     description: 'Forty-two acres of forest sanctuary. Hosted by Anthony and Barb.',
   },
-  alternates: {
-    canonical: 'https://awakeningadventuresllc.com',
-  },
+  alternates: { canonical: 'https://awakeningadventuresllc.com' },
   robots: { index: true, follow: true },
 };
 

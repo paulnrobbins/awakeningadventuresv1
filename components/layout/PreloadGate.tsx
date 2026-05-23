@@ -1,42 +1,48 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useProgress } from '@react-three/drei';
 import { cn } from '@/lib/utils';
 
 /**
- * Scene 0 — Loading as Theater (World-Building Pattern 6).
+ * Scene 0 — Loading as Theater.
  *
- * Real progress from R3F's central DefaultLoadingManager via drei's
- * useProgress hook — covers GLTF, HDRI, textures, anything pulled
- * through Three.js loaders. The loader stays mounted until BOTH
- * progress hits 100 AND a minimum dwell time has passed (so the loader
- * doesn't flash for users on fiber).
+ * Originally used drei's useProgress for real asset progress. Reverted
+ * to a time-based gate for production stability — drei's useProgress
+ * pulls in the Three.js DefaultLoadingManager which has caused
+ * client-side crashes in certain Next.js production builds.
  *
- * The headline ("Step out of the light pollution.") fades up at ~30%
- * progress per the Phase 1 brief.
+ * The gate dwells ~1.6s — long enough to register as intentional,
+ * short enough not to annoy. The amber line fades in at 30% through
+ * the dwell, the gate lifts at the end.
  */
-const MIN_DWELL_MS = 1100;
+const DWELL_MS = 1600;
+const HEADLINE_AT = 0.3;
 
 export function PreloadGate() {
-  const { progress, active } = useProgress();
-  const [mountedAt] = useState(() => (typeof performance !== 'undefined' ? performance.now() : 0));
   const [hidden, setHidden] = useState(false);
   const [showHeadline, setShowHeadline] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  // Headline fades up at ~30% progress
   useEffect(() => {
-    if (!showHeadline && progress >= 30) setShowHeadline(true);
-  }, [progress, showHeadline]);
+    const headlineTimer = setTimeout(() => setShowHeadline(true), DWELL_MS * HEADLINE_AT);
+    const hideTimer = setTimeout(() => setHidden(true), DWELL_MS);
 
-  // Hide once everything is loaded AND we've shown the gate long enough
-  useEffect(() => {
-    if (active || progress < 100) return;
-    const elapsed = performance.now() - mountedAt;
-    const wait = Math.max(0, MIN_DWELL_MS - elapsed);
-    const t = setTimeout(() => setHidden(true), wait);
-    return () => clearTimeout(t);
-  }, [active, progress, mountedAt]);
+    const start = performance.now();
+    let raf = 0;
+    const tick = () => {
+      const elapsed = performance.now() - start;
+      const p = Math.min(100, (elapsed / DWELL_MS) * 100);
+      setProgress(p);
+      if (p < 100) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      clearTimeout(headlineTimer);
+      clearTimeout(hideTimer);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <div
@@ -50,15 +56,12 @@ export function PreloadGate() {
         hidden ? 'pointer-events-none opacity-0' : 'opacity-100',
       )}
     >
-      {/* Progress arc — top-right per the brief */}
-      <div
-        className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center gap-3 eyebrow text-cream/70"
-      >
+      <div className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center gap-3 eyebrow text-cream/70">
         <span>{Math.min(99, Math.round(progress)).toString().padStart(2, '0')}</span>
         <div className="w-24 h-px bg-cream/15 relative overflow-hidden">
           <div
             className="absolute inset-y-0 left-0 bg-amber"
-            style={{ width: `${Math.min(100, progress)}%`, transition: 'width 300ms ease-out' }}
+            style={{ width: `${Math.min(100, progress)}%`, transition: 'width 200ms linear' }}
           />
         </div>
       </div>
@@ -73,7 +76,7 @@ export function PreloadGate() {
         Step out of the light pollution.
       </p>
 
-      <span className="sr-only">Loading…</span>
+      <span className="sr-only">Loading</span>
     </div>
   );
 }

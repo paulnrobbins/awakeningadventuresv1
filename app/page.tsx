@@ -1,9 +1,12 @@
+'use client';
+
 import { WorldCanvasClient } from '@/components/three/WorldCanvasClient';
 import { Nav } from '@/components/layout/Nav';
 import { PreloadGate } from '@/components/layout/PreloadGate';
 import { MuteToggle } from '@/components/ui/MuteToggle';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { ErrorCatcher } from '@/components/ui/ErrorCatcher';
+import { useMounted } from '@/hooks/useMounted';
 
 import { SceneHero } from '@/components/sections/SceneHero';
 import { SceneProperty } from '@/components/sections/SceneProperty';
@@ -16,17 +19,20 @@ import { SceneBook } from '@/components/sections/SceneBook';
 import { Footer } from '@/components/sections/Footer';
 
 /**
- * Home — the entire inhabitable world, top to bottom.
- * Phase 2: scenes render as DOM-only placeholders so layout, typography,
- * and content are real and verifiable. Phase 3+ adds the 3D world
- * underneath (the WorldCanvas is already mounted; it just renders an
- * empty night background until the Stargazer arrives).
+ * Home — the inhabitable world, top to bottom.
+ *
+ * The 3D canvas + mute toggle + custom cursor are all gated behind a
+ * `mounted` flag so they only render after first client mount. This
+ * eliminates the entire category of hydration mismatch crashes and
+ * lets the DOM scenes ship cleanly even if the 3D world fails.
  */
 export default function HomePage() {
+  const mounted = useMounted();
+
   return (
     <>
       <PreloadGate />
-      <WorldCanvasClient />
+      {mounted && <WorldCanvasClient />}
       <Nav />
       <main className="relative z-[var(--z-content)]">
         <SceneHero />
@@ -39,9 +45,9 @@ export default function HomePage() {
         <SceneBook />
       </main>
       <Footer />
-      <MuteToggle />
-      <CustomCursor />
-      <ErrorCatcher />
+      {mounted && <MuteToggle />}
+      {mounted && <CustomCursor />}
+      {mounted && <ErrorCatcher />}
     </>
   );
 }
