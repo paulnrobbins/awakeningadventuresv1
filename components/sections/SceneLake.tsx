@@ -1,0 +1,96 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { sound } from '@/lib/sound';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+/**
+ * Scene 5 — The Lake. Watts Bar at sunset, pontoon silhouette drifting.
+ * Two CTAs side-by-side (pontoon + island camping), not buried as one.
+ *
+ * Sound crossfade on entry: the forest ambient bed quiets and the lake
+ * ambient (water lap + distant boat motor) fades in.
+ */
+export function SceneLake() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const fired = useRef(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const items = ref.current.querySelectorAll<HTMLElement>('[data-lake-anim]');
+
+    if (reduced) {
+      items.forEach((el) => gsap.set(el, { opacity: 1, y: 0 }));
+      return;
+    }
+
+    const trig = ScrollTrigger.create({
+      trigger: ref.current,
+      start: 'top 65%',
+      end: 'bottom 35%',
+      onEnter: () => {
+        gsap.to(items, {
+          opacity: 1,
+          y: 0,
+          duration: 1.0,
+          stagger: 0.10,
+          ease: 'power3.out',
+        });
+        if (!fired.current) {
+          sound.fade('ambient-forest', 0.32, 0.06, 2000);
+          sound.fade('ambient-lake', 0, 0.2, 2200);
+          sound.fade('water-lap', 0, 0.18, 2400);
+          // Distant motor cue near scene's end — fires once
+          setTimeout(() => sound.play('pontoon-distant'), 6500);
+          fired.current = true;
+        }
+      },
+      onLeaveBack: () => {
+        gsap.to(items, { opacity: 0, y: 28, duration: 0.6, ease: 'power2.in' });
+        sound.fade('ambient-lake', 0.2, 0, 1400);
+        sound.fade('water-lap', 0.18, 0, 1400);
+        sound.fade('ambient-forest', 0.06, 0.18, 1400);
+        fired.current = false;
+      },
+    });
+
+    gsap.set(items, { opacity: 0, y: 28 });
+
+    return () => { trig.kill(); };
+  }, [reduced]);
+
+  return (
+    <section id="lake" ref={ref} className="scene flex items-end" data-scene="lake">
+      <div className="relative z-[var(--z-content)] max-w-[60rem]">
+        <p data-lake-anim className="eyebrow text-cream/55 mb-4">On the water</p>
+        <h2 data-lake-anim className="font-display text-display text-cream leading-[0.95]">
+          Watts Bar Lake.<br />Twenty minutes from the property.
+        </h2>
+        <p data-lake-anim className="editorial mt-6">
+          Captain Anthony at the helm. Sunset on the island. Bring your
+          tent if you want to stay the night out there.
+        </p>
+        <div data-lake-anim className="mt-10 flex flex-col md:flex-row gap-6 md:gap-12">
+          <a
+            href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-primary"
+          >
+            Book a sunset pontoon
+          </a>
+          <a
+            href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-primary"
+          >
+            Reserve the island campsite
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
