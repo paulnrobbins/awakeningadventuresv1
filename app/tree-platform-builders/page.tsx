@@ -23,9 +23,21 @@ const ESTIMATE_INCLUDES = [
 ];
 
 const FEATURED = [
-  { title: 'Magnolia tree playground', note: 'A multi-trunk magnolia turned into a play platform for the grandkids.' },
-  { title: 'One-tree, two-post platform', note: 'A standard build pattern — one anchoring tree paired with two ground posts.' },
-  { title: 'New Perspective', note: 'The 8×16 perspective platform built into two red oaks. Visit it on the property.' },
+  {
+    title: 'Magnolia tree playground',
+    note: 'A multi-trunk magnolia turned into a play platform for the grandkids.',
+    image: '/images/perspective/2.jpg',
+  },
+  {
+    title: 'One-tree, two-post platform',
+    note: 'A standard build pattern — one anchoring tree paired with two ground posts.',
+    image: '/images/perspective/3.jpg',
+  },
+  {
+    title: 'New Perspective',
+    note: 'The 8×16 perspective platform built into two red oaks. Visit it on the property.',
+    image: '/images/perspective/1.jpg',
+  },
 ];
 
 export default function TreePlatformBuildersPage() {
@@ -33,17 +45,28 @@ export default function TreePlatformBuildersPage() {
     <>
       <Nav />
       <main className="scene">
-        <header className="max-w-[68rem]">
+        <header className="max-w-[80rem]">
           <p className="eyebrow text-cream/75 mb-4">A side practice</p>
           <h1 className="font-display text-display text-cream leading-[0.95]">
             Tree Platform Builders.
           </h1>
-          <p className="editorial mt-8 text-cream">
+          <p className="editorial mt-8 text-cream max-w-[60rem]">
             We build tree platforms, decks, and elevated playgrounds across the
             Cumberland Plateau. Every job starts with the trees themselves — a
             real on-site walk, a real tree assessment, and a proposal you can hold
             in your hand before any board gets cut.
           </p>
+
+          {/* Hero photo of the perspective platform — our most ambitious
+              build, and the one prospective clients will probably visit. */}
+          <div className="mt-12 relative aspect-[21/9] rounded-xl overflow-hidden border border-cream/15 bg-cream/10">
+            <img
+              src="/images/perspective/4.jpg"
+              alt="The 8×16 perspective tree platform built into two red oaks"
+              loading="eager"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </header>
 
         {/* Rates */}
@@ -79,12 +102,22 @@ export default function TreePlatformBuildersPage() {
             {FEATURED.map((f, i) => (
               <li
                 key={i}
-                className="bg-night/85 border border-cream/20 rounded-xl p-6"
+                className="bg-night/85 border border-cream/20 rounded-xl overflow-hidden"
               >
-                <h2 className="font-display text-title text-cream leading-tight">
-                  {f.title}
-                </h2>
-                <p className="editorial mt-3 text-cream">{f.note}</p>
+                <div className="aspect-[4/3] overflow-hidden bg-cream/10">
+                  <img
+                    src={f.image}
+                    alt={`${f.title} — recent platform build`}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h2 className="font-display text-title text-cream leading-tight">
+                    {f.title}
+                  </h2>
+                  <p className="editorial mt-3 text-cream">{f.note}</p>
+                </div>
               </li>
             ))}
           </ul>

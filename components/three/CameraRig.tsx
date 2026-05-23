@@ -33,19 +33,23 @@ const KEYFRAMES: CameraKeyframe[] = [
   { t: 0.00,  pos: [0,    1.4,  6.0], target: [0,   1.0,   0] },
   // 1 - Sanctuary — pull up and back over the property
   { t: 0.14,  pos: [4,    8.0,  14],  target: [0,   1.0,  -3] },
-  // 2 - Stay enters at the Stargazer up close — building at origin
+  // The Stay sticky-card section spans roughly progress 0.26–0.44.
+  // Each of 4 cards occupies ~0.045 of progress. The DOM fade-in for
+  // each card triggers when its top hits 80% of viewport — about 0.03
+  // BEFORE the card becomes sticky. So camera keyframes are pulled
+  // earlier so the building arrives in frame at the moment the card
+  // appears, not a card later.
+  //
+  // 2 - Stargazer entry — building at origin
   { t: 0.26,  pos: [-3.0, 1.8,  4.0], target: [0,   1.2,   0] },
-  // 3 - Stay > Driftwood treehouse — building at [22, 0, -16]
-  //     Camera pulls past Stargazer to frame Driftwood alone
-  { t: 0.32,  pos: [16,   4.0, -6.0], target: [22,  4.0, -16] },
-  // 4 - Stay > Homestead tent — building at [-22, 0, -6]
-  //     Camera swings far left across the property to frame Homestead
-  { t: 0.38,  pos: [-15,  2.4,  2.0], target: [-22, 1.2,  -6] },
-  // 5 - Stay > Serene-Seven tent — building at [-26, 0, -24]
-  //     Camera moves further back-left across the prairie
-  { t: 0.44,  pos: [-19,  2.6, -16],  target: [-26, 1.0, -24] },
-  // 5.5 - Shower — building at [20, 0, 8]. Camera flies across to it.
-  { t: 0.48,  pos: [14,   3.6, 16],   target: [20,  3.0,   8] },
+  // 3 - Driftwood — building at [22, 0, -16]
+  { t: 0.30,  pos: [16,   4.0, -6.0], target: [22,  4.0, -16] },
+  // 4 - Homestead — building at [-22, 0, -6]
+  { t: 0.34,  pos: [-15,  2.4,  2.0], target: [-22, 1.2,  -6] },
+  // 5 - Serene Seven — building at [-26, 0, -24]
+  { t: 0.385, pos: [-19,  2.6, -16],  target: [-26, 1.0, -24] },
+  // 5.5 - Shower house — building at [20, 0, 8]
+  { t: 0.44,  pos: [14,   3.6, 16],   target: [20,  3.0,   8] },
   // 6 - Trails — eye-level on the trail, framing the prayer shelter
   //     on the left and the perspective platform on the right.
   //     Forest scene origin is [0, 0, -16] so positions are offset.

@@ -63,6 +63,20 @@ export default function ExcursionsPage() {
 
         {/* === Boat tours ============================================= */}
         <section id="boat-tours" className="max-w-[88rem] mt-20 scroll-mt-32">
+          {/* Photo strip — sunset pontoon, the actual boat, the lake */}
+          <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+            {[1, 2, 3, 4].map((n) => (
+              <li key={n} className="aspect-[4/3] overflow-hidden rounded-lg border border-cream/15 bg-cream/10">
+                <img
+                  src={`/images/boating/${n}.jpg`}
+                  alt={`Watts Bar Lake pontoon excursion — view ${n}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+
           <p className="eyebrow text-amber mb-3">On the water</p>
           <h2 className="font-display text-display text-cream leading-[0.95]">
             Sunset pontoon excursions on Watts Bar Lake.
@@ -158,6 +172,20 @@ export default function ExcursionsPage() {
 
         {/* === Island camping ======================================== */}
         <section id="island-camping" className="max-w-[88rem] mt-32 scroll-mt-32">
+          {/* Photo strip — actual island campsites */}
+          <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+            {[1, 2, 3, 4].map((n) => (
+              <li key={n} className="aspect-[4/3] overflow-hidden rounded-lg border border-cream/15 bg-cream/10">
+                <img
+                  src={`/images/island-camping/${n}.jpg`}
+                  alt={`Watts Bar Lake island camping — view ${n}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+
           <p className="eyebrow text-amber mb-3">Sleep on an island</p>
           <h2 className="font-display text-display text-cream leading-[0.95]">
             Watts Bar Lake island camping outfitter.
@@ -259,6 +287,25 @@ export default function ExcursionsPage() {
 
         {/* === Prayer hikes ========================================== */}
         <section id="prayer-hikes" className="max-w-[88rem] mt-32 scroll-mt-32">
+          {/* Photo strip — trails, perspective platform, the forest */}
+          <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+            {[
+              '/images/grounds/1.jpg',
+              '/images/perspective/1.jpg',
+              '/images/grounds/2.jpg',
+              '/images/perspective/2.jpg',
+            ].map((src, n) => (
+              <li key={n} className="aspect-[4/3] overflow-hidden rounded-lg border border-cream/15 bg-cream/10">
+                <img
+                  src={src}
+                  alt={`Prayer hike trails and perspective platform — view ${n + 1}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+
           <p className="eyebrow text-amber mb-3">On foot, on the trail</p>
           <h2 className="font-display text-display text-cream leading-[0.95]">
             Guided spiritual prayer hikes.

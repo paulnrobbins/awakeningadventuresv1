@@ -124,9 +124,21 @@ export default function SanctuaryPage() {
         </section>
 
         {/* Trails */}
-        <section className="mt-20 max-w-[68rem]">
+        <section className="mt-20 max-w-[80rem]">
           <h2 className="font-display text-title text-cream">Trails</h2>
-          <p className="editorial mt-4 text-cream">
+          <ul className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[1, 2, 3, 4].map((n) => (
+              <li key={n} className="aspect-[4/3] rounded-md overflow-hidden border border-cream/15 bg-cream/10">
+                <img
+                  src={`/images/grounds/${n}.jpg`}
+                  alt={`Trails on the property — view ${n}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+          <p className="editorial mt-6 text-cream">
             Over five miles of walking trails wind across the property, featuring
             a wet-weather creek with a rock-bridge crossing. There&rsquo;s also a
             curated{' '}
@@ -152,9 +164,21 @@ export default function SanctuaryPage() {
         </section>
 
         {/* New Perspective Tree Platform */}
-        <section className="mt-20 max-w-[68rem]">
+        <section className="mt-20 max-w-[80rem]">
           <h2 className="font-display text-title text-cream">New perspective tree platform</h2>
-          <p className="editorial mt-4 text-cream">
+          <ul className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[1, 2, 3, 4].map((n) => (
+              <li key={n} className="aspect-[4/3] rounded-md overflow-hidden border border-cream/15 bg-cream/10">
+                <img
+                  src={`/images/perspective/${n}.jpg`}
+                  alt={`Perspective tree platform — view ${n}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+          <p className="editorial mt-6 text-cream">
             An 8&times;16 platform nestled in two red oaks, just inside the
             forest. At eye level you&rsquo;re looking out at twenty-two feet
             above ground. A two-stage bridge gets you up to it. Favorite times

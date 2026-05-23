@@ -86,21 +86,41 @@ export function SceneStay() {
                     'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch',
                   )}
                 >
-                  {/* Text card — h-full so it matches the carousel height */}
+                  {/* Text card — solid white with forest-ink text */}
                   <div
                     className={cn(
-                      'lg:col-span-6 h-full',
-                      'bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10',
+                      'lg:col-span-6 h-full rounded-xl p-8 md:p-10',
                       'flex flex-col justify-center',
                       isRightAlign ? 'lg:col-start-7 lg:text-right' : '',
                     )}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid rgba(31,46,31,0.15)',
+                      boxShadow: '0 14px 40px -16px rgba(31,46,31,0.35)',
+                    }}
                   >
-                    <p className={cn('eyebrow text-amber mb-3', isRightAlign && 'lg:text-right')}>{a.kind}</p>
-                    <h3 className="font-display text-display text-cream leading-[0.95]">
+                    <p
+                      className={cn('eyebrow mb-3', isRightAlign && 'lg:text-right')}
+                      style={{ color: '#C77A3A' }}
+                    >
+                      {a.kind}
+                    </p>
+                    <h3
+                      className="font-display text-display leading-[0.95]"
+                      style={{ color: '#1F2E1F' }}
+                    >
                       {a.name}
                     </h3>
-                    <p className={cn('editorial mt-6 text-cream', isRightAlign && 'lg:ml-auto')}>{a.hook}</p>
-                    <p className="mt-3 font-sans text-caption text-cream/70">
+                    <p
+                      className={cn('editorial mt-6', isRightAlign && 'lg:ml-auto')}
+                      style={{ color: 'rgba(31,46,31,0.85)' }}
+                    >
+                      {a.hook}
+                    </p>
+                    <p
+                      className="mt-3 font-sans text-caption"
+                      style={{ color: 'rgba(31,46,31,0.6)' }}
+                    >
                       {a.capacity}
                     </p>
                     <a
@@ -108,6 +128,7 @@ export function SceneStay() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="cta-primary mt-8"
+                      style={{ color: '#C77A3A' }}
                     >
                       {a.ctaLabel}
                     </a>
