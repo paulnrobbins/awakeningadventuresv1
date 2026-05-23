@@ -48,8 +48,10 @@ const KEYFRAMES: CameraKeyframe[] = [
   //     past the dock's lakeside end, far shore woodline + island
   //     silhouettes anchor the horizon.
   { t: 0.64,  pos: [-7,   3.2, -22],  target: [2,   0.4, -40] },
-  // 8 - Welcome — sitting at the fire pit (the pit is at [-2, 0, -8])
-  { t: 0.74,  pos: [-3.4, 1.2,  -5.0], target: [-2,  0.5,  -8] },
+  // 8 - Welcome — sitting at the fire pit (the pit is at [-2, 0, -8]).
+  // Keyframe lands AFTER the lake unmounts at progress 0.70 so the
+  // visitor scrolls cleanly from lake water back into the forest.
+  { t: 0.76,  pos: [-3.4, 1.2,  -5.0], target: [-2,  0.5,  -8] },
   // 9 - Groups — full pull-back to see the entire property at full darkness
   { t: 0.86,  pos: [14,   16,   20],   target: [-2,  0.5,  -6] },
   // 10 - Book — return to hero composition

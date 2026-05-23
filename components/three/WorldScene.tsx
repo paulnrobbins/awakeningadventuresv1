@@ -53,10 +53,13 @@ export function WorldScene() {
       ? 0
       : 0.05;
 
-  // Mount ranges are NON-OVERLAPPING so forest trees never appear in the
-  // dock area and the lake water is never fighting the forest's far bank.
+  // Mount ranges are NON-OVERLAPPING. Lake unmounts BEFORE the welcome
+  // scene's camera keyframe (0.74) so the fire pit never renders over
+  // blue water. After the lake unmounts, the property's forest ground
+  // is back, so scrolling past the lake puts the visitor back in the
+  // forest where the welcome / fire pit / groups scenes live.
   const inForest = progress > 0.46 && progress < 0.58;
-  const inLakeRange = progress > 0.59 && progress < 0.82;
+  const inLakeRange = progress > 0.59 && progress < 0.70;
   const inWelcomeRange = progress > 0.66 && progress < 0.92;
   const inBookRange = progress > 0.86;
 
@@ -79,15 +82,15 @@ export function WorldScene() {
         </>
       )}
 
-      {/* Far-shore woodline — only mounted OUTSIDE the lake range so it
-          can never intersect the dock. When the lake is mounted the
-          LakeStage's own islands and far horizon are what the visitor
-          sees instead. */}
+      {/* Property-side tree line — sits AROUND the property buildings,
+          not in the lake area. Always mounted so the forest reads as
+          present in every non-lake scene including welcome / groups /
+          book. */}
       {!inLakeRange && (
         <TreeBank
-          count={tier === 'high' ? 60 : 36}
-          center={[0, 0, -34]}
-          spread={[80, 12]}
+          count={tier === 'high' ? 50 : 30}
+          center={[0, 0, -18]}
+          spread={[70, 14]}
           heightRange={[6, 10]}
           radiusRange={[0.10, 0.22]}
           seed={91}
@@ -110,17 +113,15 @@ export function WorldScene() {
       {/* Sun motes — daytime equivalent of the night star field */}
       <StarField count={Math.round(starCount * 0.4)} radius={40} />
 
-      {/* Forest floor — only mounted OUTSIDE the lake range. Was a
-          400×400 plane that occluded the lake water plane entirely;
-          replaced with a smaller property-area patch when not at the
-          lake, and removed entirely when at the lake so the water is
-          unobstructed. */}
-      {!inLakeRange && (
-        <mesh position={[0, -0.18, -5]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[120, 80, 1, 1]} />
-          <meshStandardMaterial color="#3D4A30" roughness={0.96} />
-        </mesh>
-      )}
+      {/* Forest floor — ALWAYS mounted but at a footprint that doesn't
+          reach into the lake area. Covers the property zone (centered
+          around the buildings at z=-5, extending 40m forward and 30m
+          back, 60m wide). The lake at z=-30+ is well outside this
+          patch so the lake water never has to compete with it. */}
+      <mesh position={[0, -0.18, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[60, 50, 1, 1]} />
+        <meshStandardMaterial color="#3D4A30" roughness={0.96} />
+      </mesh>
     </>
   );
 }

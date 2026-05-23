@@ -82,11 +82,11 @@ export const SCENES: SceneConfig[] = [
   {
     id: 'welcome',
     label: 'Welcome',
-    hdri: 'kiara_1_dawn_2k.hdr',           // golden-hour warmth
+    hdri: 'kiara_1_dawn_2k.hdr',           // soft warm daylight
     ambient: 'fire-crackle',
-    fog: '#E6CFA6',                          // warm late-afternoon
-    fogNear: 10,
-    fogFar: 60,
+    fog: '#E0DCC8',                          // neutral warm cream (no orange/brown)
+    fogNear: 12,
+    fogFar: 70,
   },
   {
     id: 'groups',
