@@ -1,20 +1,18 @@
 'use client';
 
-import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { useDeviceTier } from '@/hooks/useDeviceTier';
 
 /**
- * Cinematic post-processing — kept conservative for production stability.
+ * Daytime post-processing — minimal.
  *
- * Earlier draft used ChromaticAberration (with radial modulation) and
- * BrightnessContrast — both depend on newer @react-three/postprocessing
- * API surface and have crashed in production builds depending on which
- * minor version Vercel installs. Pared back to the three battle-tested
- * effects that ship reliably across versions: Bloom (luminance-thresholded
- * for cabin glow), Noise (subtle film grain), Vignette (focus pull).
+ * Bloom held low (bright scenes don't need much). Subtle multiplicative
+ * grain for organic texture. NO vignette — a dark vignette on a bright
+ * scene pulls the corners back toward night and undoes the whole
+ * daytime feel.
  *
- * Disabled entirely on low-tier devices.
+ * Disabled entirely on low-tier.
  */
 export function PostProcessing() {
   const tier = useDeviceTier();
@@ -23,17 +21,13 @@ export function PostProcessing() {
   return (
     <EffectComposer>
       <Bloom
-        intensity={0.7}
-        luminanceThreshold={0.55}
-        luminanceSmoothing={0.18}
+        intensity={0.28}
+        luminanceThreshold={0.82}
+        luminanceSmoothing={0.22}
       />
       <Noise
-        opacity={0.045}
+        opacity={0.025}
         blendFunction={BlendFunction.MULTIPLY}
-      />
-      <Vignette
-        offset={0.18}
-        darkness={0.62}
       />
     </EffectComposer>
   );

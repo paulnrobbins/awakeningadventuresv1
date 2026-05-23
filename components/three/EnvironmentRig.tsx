@@ -4,19 +4,17 @@ import { Environment } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { Suspense, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { hdriUrl, brandColors } from '@/lib/three';
+import { hdriUrl } from '@/lib/three';
 import { SCENES, type SceneConfig } from '@/content/scenes';
 import { clamp } from '@/lib/utils';
 import { WorldErrorBoundary } from './WorldErrorBoundary';
 
 /**
- * Drives the scene-level lighting & fog based on global scroll progress.
- *
- * Phase 3 ships with one HDRI (the hero night sky). Phase 4 layers in
- * scene-specific HDRI swaps. The HDRI Environment is isolated behind
- * its own Suspense + ErrorBoundary so a missing .hdr file gracefully
- * degrades to the ambient + directional fallback rather than crashing
- * the scene.
+ * Drives scene-level lighting & fog from global scroll progress.
+ * Daytime build: warm ambient + a sun-color directional from the
+ * south-east, both bright enough to read as real-world midday.
+ * Fog colors come from each scene's config and are warm paper or
+ * sage tints rather than night-black.
  */
 interface EnvironmentRigProps {
   progress: number;
@@ -33,35 +31,42 @@ export function EnvironmentRig({ progress }: EnvironmentRigProps) {
   useEffect(() => {
     const color = new THREE.Color(activeScene.fog);
     scene.fog = new THREE.Fog(color, activeScene.fogNear, activeScene.fogFar);
-    scene.background = null;
+    // Per-scene sky tint — keeps the daytime feel and lets fog blend
+    // smoothly into the visible horizon. WorldCanvas sets a default;
+    // each scene refines it.
+    scene.background = new THREE.Color(activeScene.fog);
   }, [scene, activeScene]);
 
   return (
     <>
-      {/* Brand-tuned ambient + key light — works without HDRI. */}
-      <ambientLight intensity={0.18} color={brandColors.cream} />
+      {/* Bright warm ambient — fills the shadow side of every object */}
+      <ambientLight intensity={0.55} color="#FFF6E0" />
+
+      {/* Sun key light — slight east, slight south, warm color */}
       <directionalLight
-        position={[8, 18, 4]}
-        intensity={0.4}
-        color="#A8B0BF"
+        position={[14, 22, 10]}
+        intensity={2.2}
+        color="#FFE9B8"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-far={50}
-        shadow-camera-left={-12}
-        shadow-camera-right={12}
-        shadow-camera-top={12}
-        shadow-camera-bottom={-12}
+        shadow-camera-far={60}
+        shadow-camera-left={-16}
+        shadow-camera-right={16}
+        shadow-camera-top={16}
+        shadow-camera-bottom={-16}
       />
 
-      {/* HDRI lighting is optional — boundary + Suspense means a missing
-          .hdr file is silently skipped, the scene falls back to the
-          ambient + directional lights above. */}
+      {/* Subtle sky bounce — cool blue from above to anchor it as outdoors */}
+      <hemisphereLight args={['#BFD2DF', '#5E6F4A', 0.45]} />
+
+      {/* HDRI environment — daytime captures from Poly Haven. Errors
+          silently if the .hdr file isn't dropped in yet. */}
       <WorldErrorBoundary>
         <Suspense fallback={null}>
           <Environment
-            files={hdriUrl('moonless_golf_2k.hdr')}
+            files={hdriUrl(activeScene.hdri)}
             background={false}
-            environmentIntensity={0.65}
+            environmentIntensity={0.85}
           />
         </Suspense>
       </WorldErrorBoundary>

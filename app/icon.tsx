@@ -18,7 +18,7 @@ export default function Icon() {
         style={{
           width: '100%',
           height: '100%',
-          background: '#0B0F14',
+          background: '#F5EFE2',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -31,7 +31,6 @@ export default function Icon() {
             height: 12,
             borderRadius: '50%',
             background: '#C77A3A',
-            boxShadow: '0 0 8px #C77A3A',
           }}
         />
       </div>

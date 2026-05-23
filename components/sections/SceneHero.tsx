@@ -55,7 +55,7 @@ export function SceneHero() {
       data-scene="arrival"
     >
       <div className="relative z-[var(--z-content)] max-w-[68rem]">
-        <p data-hero-anim="eyebrow" className="eyebrow text-cream/55 mb-4">
+        <p data-hero-anim="eyebrow" className="eyebrow text-cream/70 mb-4">
           Grandview, Tennessee
         </p>
         <h1 className="font-display text-hero text-cream">
@@ -63,7 +63,7 @@ export function SceneHero() {
           <span data-hero-anim="line2" className="block">is&nbsp;the&nbsp;Greatest</span>
           <span data-hero-anim="line3" className="block">Adventure&nbsp;of&nbsp;ALL.</span>
         </h1>
-        <p data-hero-anim="sub" className="editorial mt-8">
+        <p data-hero-anim="sub" className="editorial mt-8 text-cream/85">
           Forty-two acres. Twenty minutes from the Watts Bar Lake marina.
           Hosted by Anthony and Barb.
         </p>
@@ -72,7 +72,7 @@ export function SceneHero() {
       {/* Scroll hint — fades on first scroll, see Phase 5 for the magic. */}
       <div
         aria-hidden="true"
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 eyebrow text-cream/40 flex items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 eyebrow text-cream/55 flex items-center gap-2"
       >
         <span>Scroll into the world</span>
         <span aria-hidden="true" className="inline-block animate-pulse">↓</span>

@@ -25,14 +25,14 @@ export default async function OG() {
           flexDirection: 'column',
           justifyContent: 'flex-end',
           padding: '72px',
-          background: '#0B0F14',
+          background: 'linear-gradient(180deg, #C8D4C0 0%, #EFEAD8 70%)',
           fontFamily: 'serif',
-          color: '#F2E9D8',
+          color: '#1F2E1F',
           position: 'relative',
         }}
       >
-        {/* Star dots — purely cosmetic, drawn as positioned circles */}
-        {Array.from({ length: 40 }).map((_, i) => {
+        {/* Sun mote dots — soft warm specks scattered in the upper half */}
+        {Array.from({ length: 30 }).map((_, i) => {
           const x = (i * 137.5) % 1200;
           const y = (i * 89.3) % 360;
           const r = 1 + ((i * 7) % 3);
@@ -46,8 +46,8 @@ export default async function OG() {
                 width: r,
                 height: r,
                 borderRadius: '50%',
-                background: '#F2E9D8',
-                opacity: 0.6,
+                background: '#FFE9B8',
+                opacity: 0.55,
               }}
             />
           );
@@ -66,7 +66,7 @@ export default async function OG() {
           fontSize: 96,
           lineHeight: 1.0,
           fontWeight: 600,
-          color: '#F2E9D8',
+          color: '#1F2E1F',
           marginBottom: 24,
         }}>
           Because God is the
@@ -75,15 +75,15 @@ export default async function OG() {
           fontSize: 96,
           lineHeight: 1.0,
           fontWeight: 600,
-          color: '#F2E9D8',
+          color: '#1F2E1F',
           marginBottom: 24,
         }}>
           Greatest Adventure of ALL.
         </p>
         <p style={{
           fontSize: 28,
-          color: '#F2E9D8',
-          opacity: 0.7,
+          color: '#1F2E1F',
+          opacity: 0.75,
         }}>
           Forty-two acres on the Cumberland Plateau · Hosted by Anthony and Barb
         </p>

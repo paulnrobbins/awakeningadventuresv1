@@ -1,29 +1,30 @@
 /* ---------------------------------------------------------------------
-   Awakening Adventures — Design Tokens
-   These are the source of truth for color, type, spacing, motion.
-   Tailwind reads them via rgb(var(--aa-*) / <alpha-value>) in
-   tailwind.config.ts. CSS reads them directly.
+   Awakening Adventures — Design Tokens · DAYTIME PALETTE
+   The variable NAMES are kept from the night build so existing
+   component classes (bg-night, text-cream, etc.) continue to work.
+   The VALUES are inverted — what was dark is now light, what was light
+   is now dark. Same semantic roles, flipped pigment.
 
-   Color lock (Phase 1 brief):
-     night   #0B0F14   dominant background, ~70% of pixels
-     cream   #F2E9D8   off-white, body text + light UI
-     amber   #C77A3A   high-energy accent, single use
-     forest  #2C4A2E   environmental tint only — never UI surface
+       Token name     Old (night) value    New (daytime) value
+       ----------     -----------------    -------------------
+       --aa-night     near-black (#0B0F14) paper cream (#F5EFE2)   ← dominant bg
+       --aa-cream     prairie cream        forest ink (#1F2E1F)    ← primary text
+       --aa-amber     fire-amber (#C77A3A) fire-amber (unchanged)  ← accent
+       --aa-forest    forest green env     sage daylight (#7B9377) ← secondary detail
 
-   We expose colors as separated rgb triples so Tailwind's <alpha-value>
-   syntax works: text-cream/70 → rgb(242 233 216 / 0.7).
+   Components don't need editing — `bg-night` still means "dominant
+   surface", `text-cream` still means "primary text color", they just
+   now read as paper-on-ink instead of ink-on-paper.
 --------------------------------------------------------------------- */
 
 :root {
   /* Color tokens — rgb triples for Tailwind alpha syntax */
-  --aa-night: 11 15 20;
-  --aa-cream: 242 233 216;
-  --aa-amber: 199 122 58;
-  --aa-forest: 44 74 46;
+  --aa-night: 245 239 226;     /* paper / morning haze — DAYTIME DOMINANT BG */
+  --aa-cream: 31 46 31;        /* forest ink — DAYTIME PRIMARY TEXT */
+  --aa-amber: 199 122 58;      /* warm fire-amber — accent (unchanged) */
+  --aa-forest: 123 147 119;    /* sage daylight foliage — secondary detail */
 
-  /* Type stack — values come from layout.tsx font loaders.
-     next/font/google injects --font-display + --font-body at runtime;
-     these defaults carry the page if the Google fetch ever fails. */
+  /* Type stack — values come from layout.tsx font loaders */
   --font-display: Georgia, 'Times New Roman', serif;
   --font-body: system-ui, -apple-system, sans-serif;
 
@@ -31,18 +32,13 @@
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-camera: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Layered z-index scale — keeps Canvas / UI / overlays predictable */
-  --z-world: 0;          /* the R3F canvas */
-  --z-content: 10;       /* DOM content overlaying the world */
-  --z-nav: 30;           /* nav + mute toggle */
-  --z-loader: 40;        /* preload gate, above everything */
+  /* Layered z-index scale */
+  --z-world: 0;
+  --z-content: 10;
+  --z-nav: 30;
+  --z-loader: 40;
   --z-modal: 50;
 }
-
-/* ---------------------------------------------------------------------
-   Base resets specific to a full-bleed 3D world.
-   Smooth scroll is owned by Lenis, not CSS — disable native here.
---------------------------------------------------------------------- */
 
 *,
 *::before,
@@ -51,7 +47,7 @@
 }
 
 html {
-  scroll-behavior: auto; /* Lenis takes over */
+  scroll-behavior: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -61,23 +57,18 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: rgb(var(--aa-night));
-  color: rgb(var(--aa-cream));
+  background: rgb(var(--aa-night));   /* now paper cream */
+  color: rgb(var(--aa-cream));        /* now forest ink */
   font-family: var(--font-body);
   font-size: 1.0625rem;
   line-height: 1.62;
   overflow-x: hidden;
 }
 
-/* The Lenis wrapper sets overflow behavior; disabling here prevents
-   double-scroll on iOS Safari before the JS boots. */
 body {
   overscroll-behavior-y: none;
 }
 
-/* Reduced-motion users get a flat document, no scroll choreography.
-   Implemented in hooks/useReducedMotion.ts too, but this is the
-   defense-in-depth layer for users with JS disabled. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -89,22 +80,17 @@ body {
   }
 }
 
-/* Selection — fire-amber on night, the brand accent leaks through here. */
 ::selection {
   background: rgb(var(--aa-amber) / 0.85);
-  color: rgb(var(--aa-night));
+  color: rgb(var(--aa-night));        /* paper on amber */
 }
 
-/* Focus rings — visible only for keyboard users. Custom cursor logic
-   in Phase 5 hides this for mouse users via :focus-visible. */
 :focus-visible {
   outline: 2px solid rgb(var(--aa-amber));
   outline-offset: 4px;
   border-radius: 2px;
 }
 
-/* Buttons & links inherit by default — reset is intentional so each
-   component takes responsibility for its own look. */
 button {
   background: none;
   border: 0;
@@ -119,19 +105,15 @@ a {
   text-decoration: none;
 }
 
-/* Eyebrow utility — small caps marker used to label scenes WITHOUT
-   the AI-tell "01 — INTRO" numbering pattern. Each scene labels itself
-   with a real word, not a number. */
 .eyebrow {
   font-family: var(--font-body);
   font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgb(var(--aa-cream) / 0.6);
+  color: rgb(var(--aa-cream) / 0.55);
 }
 
-/* Film grain overlay — applied via PostProcessing.tsx for canvas, here
-   for DOM-only contexts (footer, 404). Subtle. */
+/* Daytime film grain — softer, multiply blend instead of overlay */
 .film-grain {
   position: relative;
 }
@@ -141,6 +123,6 @@ a {
   inset: 0;
   pointer-events: none;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
-  mix-blend-mode: overlay;
-  opacity: 0.06;
+  mix-blend-mode: multiply;
+  opacity: 0.04;
 }

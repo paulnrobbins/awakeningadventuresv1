@@ -69,12 +69,15 @@ export function hdriUrl(filename: string): string {
   return `/hdri/${filename}`;
 }
 
-// Color helpers — convert the design-token hex codes to THREE.Color so
-// 3D fog / light / material code can reach the brand colors without
-// hard-coding hex strings everywhere.
+// Color helpers — DAYTIME PALETTE
+// Variable names retained from the night build so component imports
+// don't break. Roles flip — `night` is now the light paper background
+// (used as fog/scrim color), `cream` is the dark forest ink (used in
+// text-mapped 3D contexts), `amber` unchanged, `forest` is the sage
+// daylight foliage tint.
 export const brandColors = {
-  night: new THREE.Color('#0B0F14'),
-  cream: new THREE.Color('#F2E9D8'),
-  amber: new THREE.Color('#C77A3A'),
-  forest: new THREE.Color('#2C4A2E'),
+  night: new THREE.Color('#F5EFE2'),   // paper / morning haze
+  cream: new THREE.Color('#1F2E1F'),   // forest ink
+  amber: new THREE.Color('#C77A3A'),   // fire-amber accent (unchanged)
+  forest: new THREE.Color('#7B9377'),  // sage daylight foliage
 };

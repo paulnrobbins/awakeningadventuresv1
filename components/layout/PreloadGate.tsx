@@ -68,12 +68,12 @@ export function PreloadGate() {
 
       <p
         className={cn(
-          'font-display text-display text-amber max-w-[18ch] text-center px-6',
+          'font-display text-display text-amber max-w-[20ch] text-center px-6',
           'transition-opacity duration-1000 ease-cinematic',
           showHeadline ? 'opacity-100' : 'opacity-0',
         )}
       >
-        Step out of the light pollution.
+        The forest is awake.
       </p>
 
       <span className="sr-only">Loading</span>

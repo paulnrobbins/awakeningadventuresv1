@@ -15,6 +15,12 @@ export const WorldCanvasClient = dynamic(
   () => import('./WorldCanvas').then((m) => m.WorldCanvas),
   {
     ssr: false,
-    loading: () => <div className="fixed inset-0 z-[var(--z-world)] bg-night" aria-hidden="true" />,
+    loading: () => (
+      <div
+        className="fixed inset-0 z-[var(--z-world)]"
+        style={{ background: 'linear-gradient(180deg, #C8D4C0 0%, #EFEAD8 70%)' }}
+        aria-hidden="true"
+      />
+    ),
   },
 );

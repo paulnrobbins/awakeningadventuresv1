@@ -24,24 +24,24 @@ export function PropertyLayout() {
 
   return (
     <group>
-      <StargazerCabin position={[0, 0, 0]} rotationY={-Math.PI / 8} interiorGlow={0.9} />
+      <StargazerCabin position={[0, 0, 0]} rotationY={-Math.PI / 8} interiorGlow={0.15} />
 
-      <Treehouse position={[8, 0, -7]} scale={1} glowIntensity={0.55} />
+      <Treehouse position={[8, 0, -7]} scale={1} glowIntensity={0.08} />
 
       <Tent
         position={[-9, 0, -3]}
         rotationY={Math.PI / 6}
         hasStove
-        glowIntensity={0.5}
-        canvasColor="#C9B388"
+        glowIntensity={0.08}
+        canvasColor="#E8D9B0"
       />
 
       <Tent
         position={[-12, 0, -10]}
         rotationY={-Math.PI / 8}
         hasStove={false}
-        glowIntensity={0.45}
-        canvasColor="#D9C9A6"
+        glowIntensity={0.05}
+        canvasColor="#F2E6C5"
       />
 
       <PerspectivePlatform position={[16, 1.2, -22]} rotationY={Math.PI} />

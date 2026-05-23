@@ -1,17 +1,16 @@
 /**
- * Scroll-score configuration — Phase 1 brief, scene-by-scene.
+ * Scroll-score configuration — DAYTIME edition.
  *
- * Each scene maps to:
- *   id              stable key for ScrollTrigger anchoring
- *   label           the editorial word that appears as the eyebrow
- *                   (NEVER a number — Anti-AI-Tell rule)
- *   hdriUrl         which Poly Haven HDRI dominates this scene's lighting
- *   ambient         which sound cue plays under this scene
- *   fogColor        scene-level THREE.Color override for atmosphere
- *   cameraTarget    [x, y, z] dolly target — used by EnvironmentRig
+ * Each scene maps to a daytime location on the property: arrival at
+ * the Stargazer in late-morning forest light, sanctuary pull-back in
+ * dappled mid-morning, side-scroll through the four accommodations
+ * in clear midday, descent into the trail interior with light shafts,
+ * emergence at Watts Bar Lake in bright midday, fire pit at warm
+ * golden hour, group pull-back at late afternoon, booking under
+ * bright sky.
  *
- * Phase 3 reads this to build the GSAP master timeline. Phase 4 reads
- * it for per-section content. Editing one entry here updates both.
+ * HDRI filenames are all Poly Haven daytime captures.
+ * Fog colors are warm paper / sage tints — no near-black.
  */
 
 import type { SceneSoundKey } from '@/lib/sound';
@@ -29,7 +28,7 @@ export type SceneConfig = {
   label: string;
   hdri: string;
   ambient: SceneSoundKey;
-  fog: string;          // hex color override for THREE.Fog
+  fog: string;
   fogNear: number;
   fogFar: number;
 };
@@ -38,73 +37,73 @@ export const SCENES: SceneConfig[] = [
   {
     id: 'arrival',
     label: 'Arrive',
-    hdri: 'moonless_golf_2k.hdr',
+    hdri: 'kiara_1_dawn_2k.hdr',           // soft early-morning warmth
     ambient: 'wind-trees',
-    fog: '#0B0F14',
-    fogNear: 8,
-    fogFar: 60,
+    fog: '#E8E0CF',                          // warm haze, not black
+    fogNear: 12,
+    fogFar: 80,
   },
   {
     id: 'sanctuary',
     label: 'The property',
-    hdri: 'kiara_1_dawn_2k.hdr',
+    hdri: 'kloofendal_43d_clear_2k.hdr',   // clear midday sky
     ambient: 'ambient-forest',
-    fog: '#1B2118',
-    fogNear: 20,
-    fogFar: 120,
+    fog: '#D8DBC4',                          // bright paper-sage
+    fogNear: 30,
+    fogFar: 160,
   },
   {
     id: 'stay',
     label: 'Stay',
     hdri: 'kloofendal_43d_clear_2k.hdr',
     ambient: 'crickets',
-    fog: '#1B2118',
-    fogNear: 15,
-    fogFar: 90,
+    fog: '#D8DBC4',
+    fogNear: 25,
+    fogFar: 130,
   },
   {
     id: 'trails',
     label: 'Walk the trails',
-    hdri: 'forest_slope_2k.hdr',
+    hdri: 'forest_slope_2k.hdr',           // inside-forest filtered light
     ambient: 'ambient-forest',
-    fog: '#212B1F',
-    fogNear: 5,
-    fogFar: 45,
+    fog: '#C8CCB0',                          // soft forest interior
+    fogNear: 6,
+    fogFar: 55,
   },
   {
     id: 'lake',
     label: 'On the water',
-    hdri: 'golden_gate_hills_2k.hdr',
+    hdri: 'kloofendal_43d_clear_2k.hdr',   // bright lake sky
     ambient: 'ambient-lake',
-    fog: '#3A2B1E',
-    fogNear: 30,
-    fogFar: 180,
+    fog: '#D6DCC8',                          // hazy lake horizon
+    fogNear: 40,
+    fogFar: 220,
   },
   {
     id: 'welcome',
     label: 'Welcome',
-    hdri: 'studio_small_09_2k.hdr',
+    hdri: 'kiara_1_dawn_2k.hdr',           // golden-hour warmth
     ambient: 'fire-crackle',
-    fog: '#1A1009',
-    fogNear: 8,
-    fogFar: 50,
+    fog: '#E6CFA6',                          // warm late-afternoon
+    fogNear: 10,
+    fogFar: 60,
   },
   {
     id: 'groups',
     label: 'Set apart',
-    hdri: 'moonless_golf_2k.hdr',
+    hdri: 'kiara_1_dawn_2k.hdr',
     ambient: 'crickets',
-    fog: '#0B0F14',
-    fogNear: 40,
-    fogFar: 200,
+    fog: '#E8E0CF',                          // golden hour pull-back
+    fogNear: 50,
+    fogFar: 240,
   },
   {
     id: 'book',
     label: 'Come and see',
-    hdri: 'moonless_golf_2k.hdr',
+    hdri: 'kloofendal_43d_clear_2k.hdr',
     ambient: 'wind-trees',
-    fog: '#0B0F14',
-    fogNear: 10,
-    fogFar: 80,
+    fog: '#E8E0CF',
+    fogNear: 12,
+    fogFar: 90,
   },
 ];

@@ -97,11 +97,13 @@ export function WorldScene() {
       {inWelcomeRange && <WelcomeStage />}
       {inBookRange && <BookingStage />}
 
-      <StarField count={starCount} radius={130} periodSeconds={140} />
+      {/* Sun motes — daytime equivalent of the night star field */}
+      <StarField count={Math.round(starCount * 0.4)} radius={40} />
 
+      {/* Forest floor — daytime tone, warm earth + foliage */}
       <mesh position={[0, -0.18, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[400, 400, 1, 1]} />
-        <meshStandardMaterial color="#0F1A12" roughness={0.96} />
+        <meshStandardMaterial color="#3D4A30" roughness={0.96} />
       </mesh>
     </>
   );
