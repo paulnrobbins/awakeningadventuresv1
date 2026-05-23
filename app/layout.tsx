@@ -1,42 +1,33 @@
 import type { Metadata, Viewport } from 'next';
-import localFont from 'next/font/local';
+import { Bricolage_Grotesque, Manrope } from 'next/font/google';
 import './globals.css';
 
 import { Providers } from '@/components/layout/Providers';
 
 /**
- * Font loading — both fonts are loaded via next/font/local so the user
- * gets brand type on first paint. The actual .woff2 files land in
- * /public/fonts during install (see README "Fonts" section).
+ * Fonts are pulled at build time by next/font/google — no manual
+ * .woff2 files in /public/fonts. Two variable fonts, both free, both
+ * off the Pillar 1 blacklist (no Inter, Roboto, Arial, Space Grotesk,
+ * Montserrat, Poppins, Lato), neither used on recent KDS projects
+ * (Fraunces / Reckless Neue / Instrument Serif).
  *
- * Bricolage Grotesque is a variable font (one file, all weights).
- * General Sans ships as a static family — three weights cover the use.
- *
- * If the .woff2 files are missing in dev, the CSS fallback chain in
- * tokens.css carries the page until they're added.
+ * Bricolage Grotesque (display) — variable grotesk with character,
+ * opsz axis so the hero 16vw sizes get proper optical scaling.
+ * Manrope (body) — humanist variable geometric. Cleaner than Inter,
+ * warmer than General Sans, ships with all weights in one file.
  */
 
-const display = localFont({
-  src: [
-    {
-      path: '../public/fonts/BricolageGrotesque[opsz,wdth,wght].woff2',
-      style: 'normal',
-    },
-  ],
+const display = Bricolage_Grotesque({
+  subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  fallback: ['Georgia', 'serif'],
+  axes: ['opsz', 'wdth'],
 });
 
-const body = localFont({
-  src: [
-    { path: '../public/fonts/GeneralSans-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/GeneralSans-Medium.woff2', weight: '500', style: 'normal' },
-    { path: '../public/fonts/GeneralSans-Semibold.woff2', weight: '600', style: 'normal' },
-  ],
+const body = Manrope({
+  subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
-  fallback: ['system-ui', 'sans-serif'],
 });
 
 export const viewport: Viewport = {
@@ -58,14 +49,6 @@ export const metadata: Metadata = {
     description: 'Because God is the Greatest Adventure of ALL.',
     url: 'https://awakeningadventuresllc.com',
     siteName: 'Awakening Adventures',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Stargazer cabin under the Tennessee night sky',
-      },
-    ],
     locale: 'en_US',
     type: 'website',
   },
@@ -73,7 +56,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Awakening Adventures',
     description: 'Forty-two acres of forest sanctuary. Hosted by Anthony and Barb.',
-    images: ['/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://awakeningadventuresllc.com',

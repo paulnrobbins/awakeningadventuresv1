@@ -21,9 +21,11 @@
   --aa-amber: 199 122 58;
   --aa-forest: 44 74 46;
 
-  /* Type stack — values come from layout.tsx font loaders */
-  --font-display: 'Bricolage Grotesque Fallback', Georgia, serif;
-  --font-body: 'General Sans Fallback', system-ui, sans-serif;
+  /* Type stack — values come from layout.tsx font loaders.
+     next/font/google injects --font-display + --font-body at runtime;
+     these defaults carry the page if the Google fetch ever fails. */
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-body: system-ui, -apple-system, sans-serif;
 
   /* Cinematic motion curve, shared by GSAP + CSS */
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);

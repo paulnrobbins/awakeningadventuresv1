@@ -26,9 +26,9 @@ Forty-two acres of forest sanctuary on the Cumberland Plateau, rebuilt as a sing
 ## Type pair
 
 - Display — **Bricolage Grotesque** (variable, Google Fonts, free)
-- Body — **General Sans** (Fontshare, free)
+- Body — **Manrope** (variable, Google Fonts, free)
 
-Avoiding Fraunces, Reckless Neue, Instrument Serif (all used on recent KDS work), plus the Pillar 1 blacklist.
+Both fonts are pulled at build time via `next/font/google` — nothing to download, no `public/fonts/` setup required. Avoiding Fraunces, Reckless Neue, Instrument Serif (all used on recent KDS work), plus the Pillar 1 blacklist (Inter, Roboto, Arial, Space Grotesk, Montserrat, Poppins, Lato).
 
 ## Getting started
 
@@ -42,20 +42,9 @@ npm run type-check   # tsc --noEmit
 
 ## Fonts
 
-Drop these files into `public/fonts/` before `npm run dev`:
+Nothing to do — `app/layout.tsx` pulls both Bricolage Grotesque and Manrope from Google Fonts at build time via `next/font/google`. They are subset, self-hosted by Next, and cached on the build runner. No CDN reach at runtime.
 
-```
-public/fonts/
-  BricolageGrotesque[opsz,wdth,wght].woff2
-  GeneralSans-Regular.woff2
-  GeneralSans-Medium.woff2
-  GeneralSans-Semibold.woff2
-```
-
-- Bricolage Grotesque variable: <https://fonts.google.com/specimen/Bricolage+Grotesque>
-- General Sans: <https://www.fontshare.com/fonts/general-sans>
-
-The CSS fallback chain in `styles/tokens.css` keeps the page legible until the .woff2 files arrive.
+If you ever want to swap either font, the change happens in one place: the imports at the top of `app/layout.tsx`. The CSS variables `--font-display` and `--font-body` flow through Tailwind and `styles/tokens.css` automatically.
 
 ## Phase status
 
