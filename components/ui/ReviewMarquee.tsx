@@ -45,9 +45,15 @@ function Stars() {
 
 function Card({ q }: { q: Quote }) {
   return (
-    <div className="flex-shrink-0 w-[20rem] md:w-[24rem] bg-night/92 border border-cream/25 rounded-xl p-6 mx-3">
+    <div
+      className="flex-shrink-0 w-[20rem] md:w-[24rem] rounded-xl p-6 mx-3 shadow-[0_10px_30px_-12px_rgba(31,46,31,0.35)]"
+      style={{ background: '#FFFFFF', border: '1px solid rgba(31,46,31,0.12)' }}
+    >
       <Stars />
-      <p className="font-display text-lede text-cream mt-3 leading-snug">
+      <p
+        className="font-display text-lede mt-3 leading-snug"
+        style={{ color: '#1F2E1F' }}
+      >
         &ldquo;{q.text}&rdquo;
       </p>
       <p className="eyebrow text-amber mt-4">— {q.author}</p>
