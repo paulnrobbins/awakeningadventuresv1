@@ -22,40 +22,40 @@ export function useDeviceTier(): DeviceTier {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Reduced-motion users always get the lowest tier — visual
-    // simplification is the right move when they've opted out anyway.
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      setTier('low');
-      return;
-    }
-
-    const cores = navigator.hardwareConcurrency ?? 4;
-    const dpr = window.devicePixelRatio ?? 1;
-
-    // WebGL renderer name often reveals the GPU family on desktop.
-    let rendererHint: string | null = null;
     try {
-      const canvas = document.createElement('canvas');
-      const gl = (canvas.getContext('webgl2') ||
-        canvas.getContext('webgl')) as WebGLRenderingContext | null;
-      if (gl) {
-        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-        if (dbg) {
-          rendererHint = String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '').toLowerCase();
-        }
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        setTier('low');
+        return;
       }
+
+      const cores = navigator.hardwareConcurrency ?? 4;
+      const dpr = window.devicePixelRatio ?? 1;
+
+      let rendererHint: string | null = null;
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = (canvas.getContext('webgl2') ||
+          canvas.getContext('webgl')) as WebGLRenderingContext | null;
+        if (gl) {
+          const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+          if (dbg) {
+            rendererHint = String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '').toLowerCase();
+          }
+        }
+      } catch {
+        /* SecurityError on some browsers — ignore. */
+      }
+
+      const isLowMobile = /android.*chrome|mobile.*safari/i.test(navigator.userAgent) && cores <= 4 && dpr < 2.5;
+      const isDesktopClass = cores >= 8 && dpr >= 1.5 && rendererHint && /nvidia|amd|radeon|apple m\d/.test(rendererHint);
+
+      if (isLowMobile) setTier('low');
+      else if (isDesktopClass) setTier('high');
+      else setTier('mid');
     } catch {
-      /* SecurityError on some browsers — ignore. */
+      // Any unexpected failure → mid tier is the safe default
+      setTier('mid');
     }
-
-    const isLowMobile = /android.*chrome|mobile.*safari/i.test(navigator.userAgent) && cores <= 4 && dpr < 2.5;
-    const isIntegrated = rendererHint && /intel|swiftshader|mesa/.test(rendererHint);
-    const isDesktopClass = cores >= 8 && dpr >= 1.5 && rendererHint && /nvidia|amd|radeon|apple m\d/.test(rendererHint);
-
-    if (isLowMobile) setTier('low');
-    else if (isDesktopClass) setTier('high');
-    else if (isIntegrated) setTier('mid');
-    else setTier('mid');
   }, []);
 
   return tier;

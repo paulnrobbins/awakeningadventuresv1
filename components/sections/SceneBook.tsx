@@ -9,14 +9,14 @@ import { ACCOMMODATIONS } from '@/content/accommodations';
 /**
  * Scene 8 — Come and see.
  *
- * The four floating glass cards live in the 3D WorldScene (BookingStage).
- * This DOM overlay supplies the headline + an accessible DOM fallback
- * list so screen readers, low-tier devices, and prefers-reduced-motion
- * users get fully usable links without needing the 3D cards.
+ * Four floating glass cards rendered as DOM tiles over the 3D canvas.
+ * They feel 3D because the camera-scrubbed world renders behind them
+ * (Stargazer, stars, fireflies). Each card has a subtle Y-bob idle
+ * animation, magnetism on hover, and a fire-amber accent on hover.
  *
- * High-tier devices see the headline, then the cards float into focus
- * via BookingStage. Low-tier / reduced-motion users see the DOM tile
- * list (kept similar to Phase 2's version).
+ * Originally implemented as drei <Html transform> in 3D space; replaced
+ * with DOM cards because Html transform mode is fragile in minified
+ * production builds.
  */
 export function SceneBook() {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,7 +59,26 @@ export function SceneBook() {
 
     gsap.set(items, { opacity: 0, y: 28 });
 
-    return () => { trig.kill(); };
+    // Idle Y-bob on each booking card — staggered phase per card so
+    // they don't pulse in unison
+    const bobTweens: gsap.core.Tween[] = [];
+    const cards = ref.current.querySelectorAll<HTMLElement>('[data-card]');
+    cards.forEach((c, i) => {
+      const t = gsap.to(c, {
+        y: '+=10',
+        duration: 3 + i * 0.3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: i * 0.4,
+      });
+      bobTweens.push(t);
+    });
+
+    return () => {
+      trig.kill();
+      bobTweens.forEach((t) => t.kill());
+    };
   }, [reduced]);
 
   return (
@@ -69,7 +88,7 @@ export function SceneBook() {
       className="scene flex flex-col items-center justify-center text-center"
       data-scene="book"
     >
-      <div className="relative z-[var(--z-content)] max-w-[80rem]">
+      <div className="relative z-[var(--z-content)] max-w-[88rem] w-full">
         <p data-book-anim className="eyebrow text-cream/55 mb-6">
           Reserve a night
         </p>
@@ -77,39 +96,50 @@ export function SceneBook() {
           Come and see.
         </h2>
 
-        {/* DOM fallback list — visible always for accessibility, but
-            visually deprioritized on hi-tier where the 3D cards do the
-            primary affordance. */}
         <ul
           data-book-anim
-          className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-left"
+          className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
           aria-label="Accommodations"
         >
           {ACCOMMODATIONS.map((a) => (
-            <li
-              key={a.id}
-              className="group relative border border-cream/15 rounded-md p-6 backdrop-blur-sm bg-night/30 transition-colors duration-500 ease-cinematic hover:border-amber"
-            >
-              <p className="eyebrow text-amber/70">{a.kind}</p>
-              <h3 className="font-display text-title text-cream mt-2">{a.name}</h3>
-              <p className="font-sans text-caption text-cream/55 mt-2">{a.capacity}</p>
+            <li key={a.id} data-card className="group relative">
               <a
                 href={fareHarbor}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={a.ctaLabel}
-                className="absolute inset-0"
+                className="
+                  block relative h-full
+                  border border-cream/15 rounded-lg
+                  p-7 md:p-8
+                  backdrop-blur-md bg-night/40
+                  transition-all duration-500 ease-cinematic
+                  hover:border-amber hover:bg-night/55 hover:-translate-y-1
+                  hover:shadow-[0_20px_60px_-20px_rgba(199,122,58,0.45)]
+                  focus-visible:border-amber
+                  text-left
+                "
               >
-                <span className="sr-only">{a.ctaLabel}</span>
+                <p className="eyebrow text-amber/80">{a.kind}</p>
+                <h3 className="font-display text-title text-cream mt-3 leading-[0.95]">
+                  {a.name}
+                </h3>
+                <p className="font-sans text-body text-cream/80 mt-4 leading-[1.55]">
+                  {a.hook}
+                </p>
+                <p className="font-sans text-caption text-cream/55 mt-4">
+                  {a.capacity}
+                </p>
+                <p className="font-display text-lede text-amber mt-8 inline-flex items-center gap-2">
+                  {a.ctaLabel}
+                  <span aria-hidden="true" className="transition-transform duration-500 ease-cinematic group-hover:translate-x-2">→</span>
+                </p>
               </a>
-              <p className="font-sans text-body text-cream/85 mt-6">
-                {a.ctaLabel} <span aria-hidden="true">→</span>
-              </p>
             </li>
           ))}
         </ul>
 
-        <p data-book-anim className="font-sans text-body text-cream/55 mt-12 max-w-[40ch] mx-auto">
+        <p data-book-anim className="font-sans text-body text-cream/55 mt-16 max-w-[44ch] mx-auto">
           Booking opens a new tab to FareHarbor. You can also{' '}
           <a
             href="mailto:hello@awakeningadventuresllc.com"

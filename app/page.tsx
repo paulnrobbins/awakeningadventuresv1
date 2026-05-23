@@ -3,6 +3,7 @@ import { Nav } from '@/components/layout/Nav';
 import { PreloadGate } from '@/components/layout/PreloadGate';
 import { MuteToggle } from '@/components/ui/MuteToggle';
 import { CustomCursor } from '@/components/ui/CustomCursor';
+import { ErrorCatcher } from '@/components/ui/ErrorCatcher';
 
 import { SceneHero } from '@/components/sections/SceneHero';
 import { SceneProperty } from '@/components/sections/SceneProperty';
@@ -40,6 +41,7 @@ export default function HomePage() {
       <Footer />
       <MuteToggle />
       <CustomCursor />
+      <ErrorCatcher />
     </>
   );
 }

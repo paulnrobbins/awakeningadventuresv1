@@ -1,49 +1,37 @@
 'use client';
 
-import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration, BrightnessContrast } from '@react-three/postprocessing';
-import { BlendFunction, KernelSize } from 'postprocessing';
-import { Vector2 } from 'three';
+import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import { useDeviceTier } from '@/hooks/useDeviceTier';
 
 /**
- * Cinematic post-processing — applies the layer of polish that separates
- * "default three.js output" from "movie frame":
- *   - Bloom on the fire-amber interior glow (everything else stays sharp)
- *   - Subtle film grain for organic texture (Pillar 5 — tactile detail)
- *   - Mild chromatic aberration at frame edges (lens character)
- *   - Vignette pulls the eye to the anchor object
- *   - Brightness/contrast nudge to deepen the night blacks
+ * Cinematic post-processing — kept conservative for production stability.
  *
- * Disabled entirely on low-tier devices — the perf budget is spent on
- * the world, not the polish.
+ * Earlier draft used ChromaticAberration (with radial modulation) and
+ * BrightnessContrast — both depend on newer @react-three/postprocessing
+ * API surface and have crashed in production builds depending on which
+ * minor version Vercel installs. Pared back to the three battle-tested
+ * effects that ship reliably across versions: Bloom (luminance-thresholded
+ * for cabin glow), Noise (subtle film grain), Vignette (focus pull).
+ *
+ * Disabled entirely on low-tier devices.
  */
 export function PostProcessing() {
   const tier = useDeviceTier();
   if (tier === 'low') return null;
 
   return (
-    <EffectComposer multisampling={tier === 'high' ? 4 : 0}>
+    <EffectComposer>
       <Bloom
         intensity={0.7}
         luminanceThreshold={0.55}
         luminanceSmoothing={0.18}
-        mipmapBlur
-        kernelSize={KernelSize.MEDIUM}
       />
-      <ChromaticAberration
-        offset={new Vector2(0.0006, 0.0006)}
-        radialModulation
-        modulationOffset={0.55}
-        blendFunction={BlendFunction.NORMAL}
-      />
-      <BrightnessContrast brightness={-0.02} contrast={0.08} />
       <Noise
         opacity={0.045}
-        premultiply
         blendFunction={BlendFunction.MULTIPLY}
       />
       <Vignette
-        eskil={false}
         offset={0.18}
         darkness={0.62}
       />
