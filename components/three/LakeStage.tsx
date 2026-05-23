@@ -28,20 +28,22 @@ export function LakeStage() {
       {/* The lake itself — covers the full horizon */}
       <LakeWater position={[0, -0.35, 0]} size={[320, 320]} />
 
+      {/* Sandy shore beach edge — a band of warm gravel where the dock
+          meets the land. Drawn BEFORE the dock so dock decking sits
+          visually on top. */}
+      <mesh position={[0, -0.10, 1.6]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[22, 5]} />
+        <meshStandardMaterial color="#C9AC85" roughness={0.95} />
+      </mesh>
+
       {/* Dock — extends 8m from shore into the lake. Origin is at
-          the SHORE end; the lakeside (mooring) end is at -Z = 4m out. */}
+          the SHORE end (z=0); the lakeside (mooring) end is at z=-8. */}
       <Dock position={[0, 0, -4]} rotationY={0} length={8} width={2.2} />
 
-      {/* Pontoon moored at the dock's lakeside end. Idle bob, no drift. */}
-      <MooredPontoon position={[2.5, 0.05, -8]} rotationY={Math.PI / 2} />
-
-      {/* Sandy shore beach edge — a slightly raised band of warm gravel
-          where the dock meets the land. Sells the transition from
-          forest path to water. */}
-      <mesh position={[0, -0.12, 1.2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[16, 4]} />
-        <meshStandardMaterial color="#A89072" roughness={0.95} />
-      </mesh>
+      {/* Pontoon moored alongside the dock's lakeside end. Sits parallel
+          to the dock with its long axis pointing along -X away from the
+          dock. Bobs in place. */}
+      <MooredPontoon position={[4.8, 0.05, -7]} rotationY={Math.PI / 2} />
 
       {/* A second smaller island silhouette far on the horizon —
           gives the visitor a target for "the island campsite". */}

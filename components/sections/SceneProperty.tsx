@@ -48,17 +48,15 @@ export function SceneProperty() {
       data-scene="sanctuary"
     >
       <div className="relative z-[var(--z-content)] ml-auto max-w-[44rem] text-right">
-        <div data-prop-anim className="readable-card inline-block text-right">
-          <p className="eyebrow text-cream/75 mb-4">The property</p>
-          <p className="font-display text-display text-cream leading-[0.95]">
-            Forty-two acres of forest<br />on a dead-end road.
-          </p>
-          <p className="editorial mt-6 ml-auto text-cream/90">
-            Three miles of trails. One rock bridge across a wet-weather creek.
-            Enough quiet to actually hear yourself pray. Welcome to the
-            Forest Sanctuary Refuge.
-          </p>
-        </div>
+        <p data-prop-anim className="eyebrow text-cream/75 mb-4">The property</p>
+        <p data-prop-anim className="font-display text-display text-cream leading-[0.95]">
+          Forty-two acres of forest<br />on a dead-end road.
+        </p>
+        <p data-prop-anim className="editorial mt-6 ml-auto text-cream">
+          Three miles of trails. One rock bridge across a wet-weather creek.
+          Enough quiet to actually hear yourself pray. Welcome to the
+          Forest Sanctuary Refuge.
+        </p>
       </div>
     </section>
   );

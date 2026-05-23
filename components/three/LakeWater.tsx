@@ -30,9 +30,11 @@ export function LakeWater({
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uHighlight: { value: new THREE.Color('#E89456') },
-      uBase: { value: new THREE.Color('#0F1F1A') },
-      uFresnelTint: { value: new THREE.Color('#C9A074') },
+      // Daytime lake palette — bright sky-blue highlight at the horizon,
+      // deep teal base near camera, pale silvery rim where water meets sky
+      uHighlight: { value: new THREE.Color('#B0CFE0') },
+      uBase: { value: new THREE.Color('#3D6B7A') },
+      uFresnelTint: { value: new THREE.Color('#D8E6E8') },
     }),
     [],
   );

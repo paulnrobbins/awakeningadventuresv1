@@ -79,14 +79,17 @@ export function WorldScene() {
         </>
       )}
 
+      {/* Far-shore woodline — sits well behind the lake, visible as
+          a tree silhouette on the opposite shore. Out of the dock zone
+          entirely so trees no longer poke through the dock geometry. */}
       <TreeBank
-        count={tier === 'high' ? 60 : 36}
-        center={[0, 0, -34]}
-        spread={[80, 12]}
-        heightRange={[6, 10]}
-        radiusRange={[0.10, 0.22]}
+        count={tier === 'high' ? 80 : 48}
+        center={[0, 0, -150]}
+        spread={[200, 14]}
+        heightRange={[7, 12]}
+        radiusRange={[0.12, 0.24]}
         seed={91}
-        color="#0C120E"
+        color="#2F4030"
       />
 
       {inForest && <ForestScene origin={[0, 0, -16]} />}

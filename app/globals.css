@@ -26,27 +26,10 @@
     text-wrap: pretty;
   }
 
-  /* Readability card — frosted backdrop for dark text floating over
-     the 3D scene. Sits at low opacity so it still feels open, but
-     pulls enough light forward to give the text crisp edges. */
-  .readable-card {
-    @apply relative isolate;
-    @apply px-6 py-6 md:px-10 md:py-10;
-    @apply rounded-xl;
-    background: rgb(var(--aa-night) / 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 40px -16px rgb(var(--aa-cream) / 0.18);
-  }
-
-  /* A lighter variant for scroll-down hints and ambient labels */
-  .readable-pill {
-    @apply inline-flex items-center gap-2;
-    @apply px-3 py-1.5 rounded-full;
-    background: rgb(var(--aa-night) / 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
+  /* readable-card / readable-pill were removed — text now renders
+     directly on the 3D world in light forest green. If a card is ever
+     needed again it should be added back here and applied to specific
+     scenes rather than globally. */
 
   /* Primary CTA — Bricolage display at title scale, fire-amber on hover,
      magnetism is added in Phase 5 via Framer-Motion-free GSAP draggable.

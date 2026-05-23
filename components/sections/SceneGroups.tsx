@@ -67,25 +67,24 @@ export function SceneGroups() {
       data-scene="groups"
     >
       <div className="relative z-[var(--z-content)] max-w-[68rem]">
-        <div data-groups-anim className="readable-card inline-block">
-          <p className="eyebrow text-cream/75 mb-6">Set apart</p>
-          <h2 className="font-display text-display text-cream max-w-[24ch] leading-[0.95]">
-            For pastors and small-group leaders planning a retreat.
-          </h2>
-          <p className="editorial mt-8 text-cream/90">
-            The entire forty-two acres can be reserved for your group. We
-            help you build the schedule, or we get out of the way so you
-            can build your own. Two-night minimum on group bookings.
-          </p>
-          <a
-            href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cta-primary mt-10"
-          >
-            Plan a small-church retreat
-          </a>
-        </div>
+        <p data-groups-anim className="eyebrow text-cream/75 mb-6">Set apart</p>
+        <h2 data-groups-anim className="font-display text-display text-cream max-w-[24ch] leading-[0.95]">
+          For pastors and small-group leaders planning a retreat.
+        </h2>
+        <p data-groups-anim className="editorial mt-8 text-cream">
+          The entire forty-two acres can be reserved for your group. We
+          help you build the schedule, or we get out of the way so you
+          can build your own. Two-night minimum on group bookings.
+        </p>
+        <a
+          data-groups-anim
+          href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cta-primary mt-10"
+        >
+          Plan a small-church retreat
+        </a>
       </div>
     </section>
   );

@@ -43,9 +43,11 @@ const KEYFRAMES: CameraKeyframe[] = [
   { t: 0.44,  pos: [-7.4, 2.6, -3.8], target: [-12, 1.0, -10] },
   // 6 - Trails — descend to ground level
   { t: 0.52,  pos: [0,    0.9, -4],   target: [0,   1.2, -10] },
-  // 7 - Lake — standing on the shore, dock leading the eye to the
-  //     moored pontoon, lake stretching to the horizon
-  { t: 0.64,  pos: [-4,   2.4, -25],  target: [1,   0.5, -38] },
+  // 7 - Lake — slightly elevated shoreside view. Dock leads diagonally
+  //     into the lake on the left, moored pontoon is on the right just
+  //     past the dock's lakeside end, far shore woodline + island
+  //     silhouettes anchor the horizon.
+  { t: 0.64,  pos: [-7,   3.2, -22],  target: [2,   0.4, -40] },
   // 8 - Welcome — sitting at the fire pit (the pit is at [-2, 0, -8])
   { t: 0.74,  pos: [-3.4, 1.2,  -5.0], target: [-2,  0.5,  -8] },
   // 9 - Groups — full pull-back to see the entire property at full darkness

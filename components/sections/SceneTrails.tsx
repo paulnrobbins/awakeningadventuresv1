@@ -65,17 +65,15 @@ export function SceneTrails() {
       data-scene="trails"
     >
       <div className="relative z-[var(--z-content)] mx-auto max-w-[58rem] text-center">
-        <div data-trail-anim className="readable-card inline-block text-center">
-          <p className="eyebrow text-cream/75 mb-6">Walk the trails</p>
-          <p className="font-display text-display text-cream leading-[1.0]">
-            Three miles of trail. One rock bridge.<br />
-            Enough quiet to pray.
-          </p>
-          <p className="editorial mt-8 mx-auto text-cream/90">
-            Guided prayer hikes are available on request. Talk to Anthony
-            when you arrive.
-          </p>
-        </div>
+        <p data-trail-anim className="eyebrow text-cream/75 mb-6">Walk the trails</p>
+        <p data-trail-anim className="font-display text-display text-cream leading-[1.0]">
+          Three miles of trail. One rock bridge.<br />
+          Enough quiet to pray.
+        </p>
+        <p data-trail-anim className="editorial mt-8 mx-auto text-cream">
+          Guided prayer hikes are available on request. Talk to Anthony
+          when you arrive.
+        </p>
       </div>
     </section>
   );
