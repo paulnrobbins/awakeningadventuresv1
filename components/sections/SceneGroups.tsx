@@ -4,16 +4,13 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { sound } from '@/lib/sound';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { ReviewMarquee } from '@/components/ui/ReviewMarquee';
 
 /**
  * Scene 7 — Groups. Small-church retreat conversion path.
- * Highest-value audience per the snapshot.
  *
- * 3D world: camera pulls way back to show the entire property at
- * full darkness — every light source visible (treehouse + tents +
- * fire pit + Stargazer interior + perspective platform silhouette).
- *
- * Sound: fire crackle fades back to ambient bed (crickets dominant).
+ * Two-row testimonial marquee plays under the headline so visitors
+ * read live social proof from real guests as they scroll.
  */
 export function SceneGroups() {
   const ref = useRef<HTMLDivElement>(null);
@@ -49,7 +46,6 @@ export function SceneGroups() {
       },
       onLeaveBack: () => {
         gsap.to(items, { opacity: 0, y: 32, duration: 0.6, ease: 'power2.in' });
-        sound.fade('crickets', 0.28, 0.12, 1200);
         fired.current = false;
       },
     });
@@ -63,11 +59,13 @@ export function SceneGroups() {
     <section
       id="groups"
       ref={ref}
-      className="scene flex items-center"
+      className="scene flex flex-col justify-center"
       data-scene="groups"
     >
       <div className="relative z-[var(--z-content)] max-w-[68rem]">
-        <p data-groups-anim className="eyebrow text-cream/75 mb-6">Set apart</p>
+        <p data-groups-anim className="eyebrow text-cream/75 mb-6">
+          Set apart
+        </p>
         <h2 data-groups-anim className="font-display text-display text-cream max-w-[24ch] leading-[0.95]">
           For pastors and small-group leaders planning a retreat.
         </h2>
@@ -85,6 +83,14 @@ export function SceneGroups() {
         >
           Plan a small-church retreat
         </a>
+      </div>
+
+      {/* Real reviews scrolling underneath — two rows in opposite directions */}
+      <div
+        data-groups-anim
+        className="relative z-[var(--z-content)] mt-16 md:mt-20 -mx-section-x"
+      >
+        <ReviewMarquee />
       </div>
     </section>
   );

@@ -4,21 +4,19 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { ACCOMMODATIONS } from '@/content/accommodations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { ImageCarousel } from '@/components/ui/ImageCarousel';
+import { cn } from '@/lib/utils';
 
 /**
  * Scene 3 — Stay.
  *
- * The camera (CameraRig) does the heavy lift here: as the visitor
- * scrolls through this section, the camera walks past each of the four
- * accommodations in their actual property positions.
+ * Four accommodations stack vertically. Each one is sticky-pinned to
+ * the viewport and fades in as the visitor scrolls. When an
+ * accommodation has photos (e.g. Stargazer), an ImageCarousel renders
+ * beside the text card. Otherwise the text card takes the full width.
  *
- * The DOM overlay surfaces one accommodation caption at a time, fading
- * the previous one out as the next one comes in. Each caption has a
- * specific CTA — never "Learn More."
- *
- * To pace the camera with the DOM, the section is 400vh tall and each
- * accommodation owns a 100vh slice. GSAP ScrollTrigger pairs the active
- * caption with the camera-rig's progress range for that accommodation.
+ * Camera (CameraRig) walks past each accommodation in 3D space at the
+ * same time the DOM caption + carousel fade in.
  */
 export function SceneStay() {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,10 +33,7 @@ export function SceneStay() {
     }
 
     const triggers: ScrollTrigger[] = [];
-
-    items.forEach((item, idx) => {
-      // Each accommodation caption fades in as it enters the viewport and
-      // fades out as the next one approaches.
+    items.forEach((item) => {
       const st = ScrollTrigger.create({
         trigger: item,
         start: 'top 80%',
@@ -63,55 +58,100 @@ export function SceneStay() {
       className="relative"
       data-scene="stay"
     >
-      {/* Outer wrapper keeps the section tall enough that the camera can
-          walk through all four accommodations in a comfortable pace.
-          400vh = ~4 screens of scroll for the Stay range. */}
       <div className="relative min-h-[400vh]">
         <p className="eyebrow text-cream mb-4 sticky top-32 z-[var(--z-content)] px-section-x">
           Stay
         </p>
 
-        {ACCOMMODATIONS.map((a, i) => (
-          <article
-            key={a.id}
-            data-stay-item
-            data-accom={a.id}
-            className="
-              sticky top-0 min-h-screen flex items-center
-              px-section-x
-            "
-            style={{
-              // Each accommodation lives in its own 100vh stickied frame
-              // but they all stack at the same top — only opacity changes.
-              top: 0,
-            }}
-          >
-            <div
-              className={
-                i % 2 === 0
-                  ? 'max-w-[40rem] ml-0 bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
-                  : 'max-w-[40rem] ml-auto text-right bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
-              }
+        {ACCOMMODATIONS.map((a, i) => {
+          const hasImages = a.images && a.images.length > 0;
+          const isRightAlign = i % 2 !== 0;
+          return (
+            <article
+              key={a.id}
+              data-stay-item
+              data-accom={a.id}
+              className="
+                sticky top-0 min-h-screen flex items-center
+                px-section-x
+              "
+              style={{ top: 0 }}
             >
-              <p className="eyebrow text-amber mb-3">{a.kind}</p>
-              <h3 className="font-display text-display text-cream leading-[0.95]">
-                {a.name}
-              </h3>
-              <p className="editorial mt-6 text-cream">{a.hook}</p>
-              <p className="mt-3 font-sans text-caption text-cream/70">
-                {a.capacity}
-              </p>
-              <a
-                href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cta-primary mt-8"
-              >
-                {a.ctaLabel}
-              </a>
-            </div>
-          </article>
-        ))}
+              {hasImages ? (
+                /* Two-column layout: card + carousel. Alternates side. */
+                <div
+                  className={cn(
+                    'w-full max-w-[88rem] mx-auto',
+                    'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center',
+                  )}
+                >
+                  {/* Text card */}
+                  <div
+                    className={cn(
+                      'lg:col-span-6',
+                      'bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10',
+                      isRightAlign ? 'lg:col-start-7 lg:text-right' : '',
+                    )}
+                  >
+                    <p className={cn('eyebrow text-amber mb-3', isRightAlign && 'lg:text-right')}>{a.kind}</p>
+                    <h3 className="font-display text-display text-cream leading-[0.95]">
+                      {a.name}
+                    </h3>
+                    <p className={cn('editorial mt-6 text-cream', isRightAlign && 'lg:ml-auto')}>{a.hook}</p>
+                    <p className="mt-3 font-sans text-caption text-cream/70">
+                      {a.capacity}
+                    </p>
+                    <a
+                      href={a.bookingUrl ?? process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cta-primary mt-8"
+                    >
+                      {a.ctaLabel}
+                    </a>
+                  </div>
+
+                  {/* Carousel — swaps to the other side on odd-indexed accommodations */}
+                  <div className={cn(
+                    'lg:col-span-5',
+                    isRightAlign ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-8',
+                  )}>
+                    <ImageCarousel
+                      images={a.images!}
+                      altBase={`${a.name} — ${a.kind}`}
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Single-column text-only layout for accommodations without photos */
+                <div
+                  className={
+                    !isRightAlign
+                      ? 'max-w-[40rem] ml-0 bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
+                      : 'max-w-[40rem] ml-auto text-right bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
+                  }
+                >
+                  <p className="eyebrow text-amber mb-3">{a.kind}</p>
+                  <h3 className="font-display text-display text-cream leading-[0.95]">
+                    {a.name}
+                  </h3>
+                  <p className="editorial mt-6 text-cream">{a.hook}</p>
+                  <p className="mt-3 font-sans text-caption text-cream/70">
+                    {a.capacity}
+                  </p>
+                  <a
+                    href={a.bookingUrl ?? process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cta-primary mt-8"
+                  >
+                    {a.ctaLabel}
+                  </a>
+                </div>
+              )}
+            </article>
+          );
+        })}
       </div>
     </section>
   );

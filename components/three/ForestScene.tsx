@@ -5,6 +5,8 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TreeBank } from './TreeBank';
 import { Firefly } from './Firefly';
+import { PrayerShelter } from './PrayerShelter';
+import { PerspectivePlatform } from './PerspectivePlatform';
 import { useDeviceTier } from '@/hooks/useDeviceTier';
 
 /**
@@ -89,6 +91,13 @@ export function ForestScene({
       {tier !== 'low' && (
         <Firefly phase={0} origin={[0, 1.2, -4]} pathWidth={8} period={22} />
       )}
+
+      {/* Mountain prayer shelter — sits to the left of the trail */}
+      <PrayerShelter position={[-7, 0, -6]} rotationY={Math.PI / 7} />
+
+      {/* Perspective tree platform — sits to the right, just inside the
+          forest, elevated on its red-oak posts */}
+      <PerspectivePlatform position={[8, 0, -10]} rotationY={-Math.PI / 6} />
     </group>
   );
 }

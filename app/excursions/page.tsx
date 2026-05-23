@@ -21,8 +21,8 @@ export default function ExcursionsPage() {
         </header>
 
         <div className="mt-12 flex flex-col md:flex-row gap-8">
-          <a href="/#book" className="cta-primary">Book a sunset pontoon</a>
-          <a href="/#book" className="cta-primary">Reserve the island campsite</a>
+          <a href="/#book" className="cta-primary">Book a Boat Tour</a>
+          <a href="/#book" className="cta-primary">Book a Watts Bar Lake Island Camping Trip</a>
           <a href="/#trails" className="cta-primary">Ask about prayer hikes</a>
         </div>
       </main>

@@ -104,7 +104,7 @@ export function SceneBook() {
           {ACCOMMODATIONS.map((a) => (
             <li key={a.id} data-card className="group relative">
               <a
-                href={fareHarbor}
+                href={a.bookingUrl ?? fareHarbor}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={a.ctaLabel}

@@ -1,22 +1,25 @@
 /**
- * The four accommodations on the property. Single source of truth —
- * referenced by Scene 3 (Stay) and Scene 8 (Book) so a copy edit
- * happens in exactly one place.
+ * The four bookable accommodations on the property. Source of truth
+ * for SceneStay (the lodging side-scroll) and SceneBook (the booking
+ * cards at the end).
  *
- * Specifics (capacity, amenities) are pulled from the existing site's
- * lodging gallery during Phase 4. Where the snapshot says "TBD" we leave
- * placeholders that Paul confirms with Anthony at handoff.
+ * `images` populates the per-card carousel.
+ * `bookingUrl` overrides the env-var default if set — use this when
+ *   a specific FareHarbor item URL is known. Falls back to the
+ *   NEXT_PUBLIC_FAREHARBOR_URL env var when blank.
  */
 
 export type Accommodation = {
   id: 'stargazer' | 'driftwood' | 'homestead' | 'serene-seven';
   name: string;
   kind: string;
-  hook: string;            // the single sentence that sells it
+  hook: string;
   capacity: string;
-  bookingId?: string;      // FareHarbor item identifier when Anthony confirms
-  heroImage: string;       // path inside /public/images
-  ctaLabel: string;        // specific, not generic
+  bookingId?: string;
+  heroImage: string;
+  ctaLabel: string;
+  images?: string[];
+  bookingUrl?: string;
 };
 
 export const ACCOMMODATIONS: Accommodation[] = [
@@ -28,6 +31,14 @@ export const ACCOMMODATIONS: Accommodation[] = [
     capacity: 'Sleeps 2',
     heroImage: '/images/stargazer-hero.jpg',
     ctaLabel: 'Book the Stargazer',
+    images: [
+      '/images/stargazer/1.jpg',
+      '/images/stargazer/2.jpg',
+      '/images/stargazer/3.jpg',
+      '/images/stargazer/4.jpg',
+      '/images/stargazer/5.jpg',
+    ],
+    // bookingUrl: 'https://fareharbor.com/awakeningadventures/items/XXXX/',
   },
   {
     id: 'driftwood',
@@ -37,6 +48,14 @@ export const ACCOMMODATIONS: Accommodation[] = [
     capacity: 'Sleeps 2–3',
     heroImage: '/images/driftwood-hero.jpg',
     ctaLabel: 'Book Driftwood',
+    images: [
+      '/images/driftwood/1.jpg',
+      '/images/driftwood/2.jpg',
+      '/images/driftwood/3.jpg',
+      '/images/driftwood/4.jpg',
+      '/images/driftwood/5.jpg',
+      '/images/driftwood/6.jpg',
+    ],
   },
   {
     id: 'homestead',
@@ -46,6 +65,14 @@ export const ACCOMMODATIONS: Accommodation[] = [
     capacity: 'Sleeps 2–4',
     heroImage: '/images/homestead-hero.jpg',
     ctaLabel: 'Book Homestead',
+    images: [
+      '/images/homestead/1.jpg',
+      '/images/homestead/2.jpg',
+      '/images/homestead/3.jpg',
+      '/images/homestead/4.jpg',
+      '/images/homestead/5.jpg',
+      '/images/homestead/6.jpg',
+    ],
   },
   {
     id: 'serene-seven',
@@ -55,5 +82,13 @@ export const ACCOMMODATIONS: Accommodation[] = [
     capacity: 'Sleeps 2–4',
     heroImage: '/images/serene-seven-hero.jpg',
     ctaLabel: 'Book Serene Seven',
+    images: [
+      '/images/serene-seven/1.jpg',
+      '/images/serene-seven/2.jpg',
+      '/images/serene-seven/3.jpg',
+      '/images/serene-seven/4.jpg',
+      '/images/serene-seven/5.jpg',
+      '/images/serene-seven/6.jpg',
+    ],
   },
 ];

@@ -11,6 +11,7 @@ import { useMounted } from '@/hooks/useMounted';
 import { SceneHero } from '@/components/sections/SceneHero';
 import { SceneProperty } from '@/components/sections/SceneProperty';
 import { SceneStay } from '@/components/sections/SceneStay';
+import { SceneShower } from '@/components/sections/SceneShower';
 import { SceneTrails } from '@/components/sections/SceneTrails';
 import { SceneLake } from '@/components/sections/SceneLake';
 import { SceneWelcome } from '@/components/sections/SceneWelcome';
@@ -38,6 +39,7 @@ export default function HomePage() {
         <SceneHero />
         <SceneProperty />
         <SceneStay />
+        <SceneShower />
         <SceneTrails />
         <SceneLake />
         <SceneWelcome />

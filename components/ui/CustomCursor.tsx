@@ -52,12 +52,13 @@ export function CustomCursor() {
 
     let rafId = 0;
     const tick = () => {
-      // Dot lerps fast for responsiveness
-      dotX += (mouseX - dotX) * 0.35;
-      dotY += (mouseY - dotY) * 0.35;
-      // Ring lerps slower for trailing lag effect
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
+      // Dot snaps very close to actual cursor — minimal lag
+      dotX += (mouseX - dotX) * 0.65;
+      dotY += (mouseY - dotY) * 0.65;
+      // Ring follows tighter — still trails for the magnetic feel
+      // but no longer reads as laggy
+      ringX += (mouseX - ringX) * 0.32;
+      ringY += (mouseY - ringY) * 0.32;
 
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${dotX - 3}px, ${dotY - 3}px, 0)`;

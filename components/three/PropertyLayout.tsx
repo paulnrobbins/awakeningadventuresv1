@@ -5,6 +5,7 @@ import { StargazerCabin } from './StargazerCabin';
 import { Treehouse } from './Treehouse';
 import { Tent } from './Tent';
 import { PerspectivePlatform } from './PerspectivePlatform';
+import { ShowerHouse } from './ShowerHouse';
 import { PhotoBillboard } from './PhotoBillboard';
 import { Firefly } from './Firefly';
 import { useDeviceTier } from '@/hooks/useDeviceTier';
@@ -45,6 +46,10 @@ export function PropertyLayout() {
       />
 
       <PerspectivePlatform position={[16, 1.2, -22]} rotationY={Math.PI} />
+
+      {/* Treehouse shower — elevated bathhouse on stilts, sits between
+          the property buildings and the trail entry */}
+      <ShowerHouse position={[-15, 0, 2]} rotationY={Math.PI / 5} glowIntensity={0.15} />
 
       {/* Photo billboards — Pattern A. Each wrapped individually so one
           missing image doesn't take down the other. */}

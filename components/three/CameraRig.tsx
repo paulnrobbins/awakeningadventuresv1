@@ -41,8 +41,10 @@ const KEYFRAMES: CameraKeyframe[] = [
   { t: 0.38,  pos: [-4.8, 2.2,  0.4], target: [-9,  1.0,  -3] },
   // 5 - Stay > Serene-Seven tent (further out, prairie)
   { t: 0.44,  pos: [-7.4, 2.6, -3.8], target: [-12, 1.0, -10] },
+  // 5.5 - Shower — pull over to the elevated bathhouse on stilts
+  { t: 0.48,  pos: [-10,  2.8,  6],   target: [-15, 2.2,   2] },
   // 6 - Trails — descend to ground level
-  { t: 0.52,  pos: [0,    0.9, -4],   target: [0,   1.2, -10] },
+  { t: 0.54,  pos: [0,    0.9, -4],   target: [0,   1.2, -10] },
   // 7 - Lake — slightly elevated shoreside view. Dock leads diagonally
   //     into the lake on the left, moored pontoon is on the right just
   //     past the dock's lakeside end, far shore woodline + island
