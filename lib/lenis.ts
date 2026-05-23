@@ -1,9 +1,10 @@
 /**
- * Lenis smooth scroll, wired into GSAP ScrollTrigger so every pinned
- * scene scrubs against the same scroll timeline.
+ * Lenis smooth scroll, wired into GSAP ScrollTrigger.
  *
- * Lenis owns scroll; GSAP reads from it via the scrollerProxy. Native
- * scroll-behavior is disabled in tokens.css so nothing fights this.
+ * Defensive: ScrollTrigger.update is only bound as a Lenis listener if
+ * it's actually a function. In some bundles the property is undefined
+ * at the moment of binding, which triggers a Lenis event-emitter
+ * crash ("ev is not a function") downstream.
  */
 
 import Lenis from 'lenis';
@@ -15,22 +16,30 @@ let rafId: number | null = null;
 export function initLenis() {
   if (instance || typeof window === 'undefined') return instance;
 
-  instance = new Lenis({
-    duration: 1.15,
-    // Lenis default easing — cinematic and forgiving, not lurchy.
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    wheelMultiplier: 1.0,
-    touchMultiplier: 1.4,
-    // Lower lerp = more cinematic, higher = snappier. 0.1 is the sweet spot.
-    lerp: 0.1,
-  });
+  try {
+    instance = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.4,
+      lerp: 0.1,
+    });
+  } catch (err) {
+    console.warn('[lenis] init failed — falling back to native scroll:', err);
+    instance = null;
+    return null;
+  }
 
-  // Feed every Lenis tick into ScrollTrigger so pinned 3D scenes
-  // stay synced with smooth scroll.
-  instance.on('scroll', ScrollTrigger.update);
+  // Only bind ScrollTrigger.update if it's a real function
+  if (typeof ScrollTrigger?.update === 'function') {
+    try {
+      instance.on('scroll', ScrollTrigger.update);
+    } catch (err) {
+      console.warn('[lenis] ScrollTrigger binding failed:', err);
+    }
+  }
 
-  // The RAF loop drives Lenis. GSAP ticker piggy-backs.
   const raf = (time: number) => {
     instance?.raf(time * 1000);
     rafId = requestAnimationFrame(raf);
@@ -42,7 +51,7 @@ export function initLenis() {
 
 export function destroyLenis() {
   if (rafId !== null) cancelAnimationFrame(rafId);
-  instance?.destroy();
+  try { instance?.destroy(); } catch { /* ignore */ }
   instance = null;
   rafId = null;
 }

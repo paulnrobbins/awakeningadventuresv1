@@ -1,15 +1,11 @@
 /**
- * Sound layer. Howler is lazy-loaded on first use so a Howler import
- * failure cannot crash the page at module-evaluation time.
+ * Sound layer. Howler is lazy-loaded and sound is fully opt-in —
+ * nothing fetches until the user explicitly clicks the mute toggle to
+ * unmute. This prevents 404 cascades when sound files aren't yet
+ * dropped into /public/sound, which was triggering Howler's
+ * audio-pool-exhausted error path and crashing the React tree.
  *
- * Tier 3 World-Building Pattern 5: ambient bed continuously, interaction
- * sounds on key hovers, mute toggle visible in the first 2 seconds.
- *
- * Asset files load lazily — calling registerCue() does NOT play.
- * Missing files at runtime degrade silently — never throw, never
- * block render.
- *
- * No music bed by policy (see Phase 1 brief).
+ * No music bed by policy (Phase 1 brief).
  */
 
 export type SceneSoundKey =
@@ -28,7 +24,6 @@ interface CueConfig {
   loop?: boolean;
   volume?: number;
   rate?: number;
-  preload?: boolean;
   html5?: boolean;
 }
 
@@ -44,10 +39,13 @@ const CUE_REGISTRY: Record<SceneSoundKey, CueConfig> = {
   'ui-whoosh':        { src: ['/sound/ui-whoosh.mp3'],        loop: false, volume: 0.35 },
 };
 
-// Howler is lazy-imported — never touches `window` until first call
 let HowlerLib: typeof import('howler') | null = null;
 const cues = new Map<SceneSoundKey, unknown>();
 let muted = true;
+// Activated by the first user click on the mute toggle. While
+// inactive, every sound API call is a silent no-op so missing
+// files cannot trigger Howler errors.
+let active = false;
 const subscribers = new Set<(muted: boolean) => void>();
 
 async function getHowler(): Promise<typeof import('howler') | null> {
@@ -57,60 +55,72 @@ async function getHowler(): Promise<typeof import('howler') | null> {
     HowlerLib = await import('howler');
     return HowlerLib;
   } catch (err) {
-    console.warn('[sound] howler.js failed to load, sound disabled:', err);
+    console.warn('[sound] howler.js failed to load:', err);
     return null;
   }
 }
 
 async function ensureCue(key: SceneSoundKey) {
+  // Hard gate: never instantiate Howl objects until the user has
+  // opted in. This is the single most important defensive line —
+  // it prevents missing-file fetches from cascading into a crash.
+  if (!active) return null;
+
   const existing = cues.get(key);
   if (existing) return existing as InstanceType<NonNullable<typeof HowlerLib>['Howl']>;
   const lib = await getHowler();
   if (!lib) return null;
   const cfg = CUE_REGISTRY[key];
-  const howl = new lib.Howl({
-    src: cfg.src,
-    loop: cfg.loop ?? false,
-    volume: cfg.volume ?? 0.2,
-    rate: cfg.rate ?? 1,
-    html5: cfg.html5 ?? false,
-    preload: cfg.preload ?? true,
-    onloaderror: () => { /* silent */ },
-  });
-  cues.set(key, howl);
-  return howl;
+  try {
+    const howl = new lib.Howl({
+      src: cfg.src,
+      loop: cfg.loop ?? false,
+      volume: cfg.volume ?? 0.2,
+      rate: cfg.rate ?? 1,
+      html5: cfg.html5 ?? false,
+      preload: true,
+      onloaderror: () => { /* silent — file missing is expected */ },
+      onplayerror: () => { /* silent */ },
+    });
+    cues.set(key, howl);
+    return howl;
+  } catch (err) {
+    console.warn('[sound] cue construction failed for', key, err);
+    return null;
+  }
 }
 
 export const sound = {
   play(key: SceneSoundKey): void {
-    if (muted) return;
-    ensureCue(key).then((howl) => { howl?.play(); });
+    if (muted || !active) return;
+    ensureCue(key).then((howl) => { try { howl?.play(); } catch { /* ignore */ } });
   },
 
   stop(key: SceneSoundKey) {
     const c = cues.get(key) as { stop?: () => void } | undefined;
-    c?.stop?.();
+    try { c?.stop?.(); } catch { /* ignore */ }
   },
 
   fade(key: SceneSoundKey, from: number, to: number, durationMs = 1200) {
+    if (!active) return;
     ensureCue(key).then((howl) => {
       if (!howl) return;
-      if (muted) {
-        howl.volume(0);
-        return;
-      }
-      if (!howl.playing()) howl.play();
-      howl.fade(from, to, durationMs);
+      try {
+        if (muted) { howl.volume(0); return; }
+        if (!howl.playing()) howl.play();
+        howl.fade(from, to, durationMs);
+      } catch { /* ignore */ }
     });
   },
 
-  preload(keys: SceneSoundKey[]) {
-    keys.forEach((k) => { ensureCue(k); });
+  preload(_keys: SceneSoundKey[]) {
+    /* deliberately a no-op — sound is fully opt-in via setMuted(false) */
   },
 
   setMuted(next: boolean) {
     muted = next;
-    getHowler().then((lib) => { lib?.Howler.mute(next); });
+    if (!next) active = true; // first unmute activates the system
+    getHowler().then((lib) => { try { lib?.Howler.mute(next); } catch { /* ignore */ } });
     subscribers.forEach((cb) => cb(next));
   },
 

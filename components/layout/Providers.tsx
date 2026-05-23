@@ -4,9 +4,13 @@ import { ReactNode, useEffect } from 'react';
 
 /**
  * Client-side providers. Heavy libraries (Lenis, GSAP, Howler) are
- * imported inside the useEffect rather than at module top so any
- * import-time failure stays isolated — the rest of the page still
- * renders even if smooth scroll or audio cannot initialize.
+ * dynamically imported inside the useEffect so any import-time
+ * failure stays isolated.
+ *
+ * Sound preload is NOT called here — Howler stays dormant until the
+ * user clicks the mute toggle. Loading sound files that don't exist
+ * (404s) was triggering Howler's audio-pool-exhausted path which
+ * cascaded into a TypeError that crashed the React tree.
  */
 export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -14,19 +18,17 @@ export function Providers({ children }: { children: ReactNode }) {
 
     (async () => {
       try {
-        const [{ ensureGsap }, { initLenis, destroyLenis }, { sound }] = await Promise.all([
+        const [{ ensureGsap }, { initLenis, destroyLenis }] = await Promise.all([
           import('@/lib/gsap'),
           import('@/lib/lenis'),
-          import('@/lib/sound'),
         ]);
 
         ensureGsap();
         initLenis();
-        sound.preload(['ambient-forest', 'crickets', 'wind-trees', 'ui-whoosh']);
 
         cleanup = () => destroyLenis();
       } catch (err) {
-        console.warn('[Providers] init failed — site renders without smooth scroll / sound:', err);
+        console.warn('[Providers] init failed — page renders without smooth scroll:', err);
       }
     })();
 
