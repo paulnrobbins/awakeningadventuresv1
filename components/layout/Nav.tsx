@@ -124,7 +124,7 @@ export function Nav({ className }: { className?: string }) {
                 onClick={() => setOpen(false)}
                 className="text-cream hover:text-amber transition-colors"
               >
-                Tree platform builders
+                Need a Tree Platform built? Hire us.
               </Link>
             </li>
             <li className="pt-3">
