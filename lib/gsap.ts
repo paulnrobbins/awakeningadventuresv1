@@ -1,33 +1,41 @@
 /**
  * Single source of truth for GSAP plugin registration and default eases.
- * Import this once at the top of Providers.tsx; never register plugins
- * inline in components — duplicate registration logs warnings and
- * doubles the size of the GSAP timeline graph in dev tools.
+ *
+ * IMPORTANT: ScrollTrigger is registered at module-evaluation time, not
+ * lazily inside a function call. Scene components import `gsap` and
+ * `ScrollTrigger` from this module and call `gsap.to({scrollTrigger:})`
+ * inside their useEffects — those effects can run BEFORE the
+ * Providers' async init completes. Registering here guarantees the
+ * plugin is available the moment any consumer imports it.
+ *
+ * This module is only imported by 'use client' components, so the
+ * `typeof window` guard keeps it safe under SSR.
  */
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-let registered = false;
+if (typeof window !== 'undefined') {
+  try {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.defaults({
+      ease: 'power3.out',
+      duration: 1.2,
+    });
+  } catch (err) {
+    // GSAP registerPlugin is idempotent in practice; this catch covers
+    // the rare case where the plugin file failed to load cleanly.
+    console.warn('[gsap] plugin registration failed:', err);
+  }
+}
 
+/**
+ * Kept as a no-op compatibility shim so existing callers
+ * (Providers, lib/lenis) still work. Registration already happened at
+ * module load.
+ */
 export function ensureGsap() {
-  if (registered || typeof window === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Cinematic default — matches --ease-cinematic in tokens.css so DOM
-  // animations and GSAP-driven 3D moves feel continuous.
-  gsap.defaults({
-    ease: 'power3.out',
-    duration: 1.2,
-  });
-
-  // ScrollTrigger defaults — Lenis owns scroll, so we feed it the
-  // proxy in lib/lenis.ts. Pinning markers stay off in production.
-  ScrollTrigger.defaults({
-    markers: process.env.NODE_ENV === 'development' && false, // flip to true while authoring
-  });
-
-  registered = true;
+  /* no-op — registration is module-side-effect */
 }
 
 export { gsap, ScrollTrigger };
