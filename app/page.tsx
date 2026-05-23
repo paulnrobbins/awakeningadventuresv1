@@ -1,4 +1,4 @@
-import { WorldCanvas } from '@/components/three/WorldCanvas';
+import { WorldCanvasClient } from '@/components/three/WorldCanvasClient';
 import { Nav } from '@/components/layout/Nav';
 import { PreloadGate } from '@/components/layout/PreloadGate';
 import { MuteToggle } from '@/components/ui/MuteToggle';
@@ -25,7 +25,7 @@ export default function HomePage() {
   return (
     <>
       <PreloadGate />
-      <WorldCanvas />
+      <WorldCanvasClient />
       <Nav />
       <main className="relative z-[var(--z-content)]">
         <SceneHero />

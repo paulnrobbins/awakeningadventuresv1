@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -92,11 +92,16 @@ export function StarField({
   });
 
   // Build the soft-circle sprite once via canvas — no external texture.
-  const sprite = useMemo(() => {
+  // Must be created inside useEffect so it doesn't run during SSR
+  // (document is undefined on the server).
+  const [sprite, setSprite] = useState<THREE.CanvasTexture | null>(null);
+
+  useEffect(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
     canvas.height = 64;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     grad.addColorStop(0.0, 'rgba(255,255,255,1)');
     grad.addColorStop(0.3, 'rgba(255,255,255,0.65)');
@@ -104,8 +109,12 @@ export function StarField({
     grad.addColorStop(1.0, 'rgba(255,255,255,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 64, 64);
-    return new THREE.CanvasTexture(canvas);
+    setSprite(new THREE.CanvasTexture(canvas));
   }, []);
+
+  // Wait for the sprite to be built before rendering anything — avoids
+  // a frame of bare points and avoids any chance of SSR hitting this branch.
+  if (!sprite) return null;
 
   return (
     <points ref={ref} frustumCulled={false}>

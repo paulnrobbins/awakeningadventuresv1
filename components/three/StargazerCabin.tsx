@@ -59,10 +59,12 @@ export function StargazerCabin({
  * keep working.
  */
 export function GlbStargazer({ interiorGlow = 0.85 }: { interiorGlow?: number }) {
+  // Only call useGLTF when this component actually renders — calling
+  // useGLTF.preload() at module scope kicks off a fetch even when the
+  // procedural fallback is the one in use, which 404s noisily in prod.
   const { scene } = useGLTF(modelUrl(STARGAZER_GLB));
   return <primitive object={scene} />;
 }
-useGLTF.preload(modelUrl(STARGAZER_GLB));
 
 /**
  * Procedural Stargazer — built entirely from Three.js primitives so it
