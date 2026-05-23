@@ -76,20 +76,18 @@ export function SceneWelcome() {
       data-scene="welcome"
     >
       <div className="relative z-[var(--z-content)] grid grid-cols-1 md:grid-cols-12 gap-12 items-center max-w-[82rem] mx-auto">
-        <div className="md:col-span-7">
-          <p data-welcome-anim className="eyebrow text-cream/55 mb-4">
-            Welcome
-          </p>
-          <h2 data-welcome-anim className="font-display text-display text-cream leading-[0.95]">
+        <div data-welcome-anim className="md:col-span-7 readable-card">
+          <p className="eyebrow text-cream/75 mb-4">Welcome</p>
+          <h2 className="font-display text-display text-cream leading-[0.95]">
             Hosted, in&nbsp;person, by<br />Anthony &amp; Barb.
           </h2>
-          <p data-welcome-anim className="editorial mt-6">
+          <p className="editorial mt-6 text-cream/90">
             Reviews come back for them, not just for the property. Barb&rsquo;s
             cookies are real. Anthony brings a cart to the car for your bags.
           </p>
         </div>
-        <figure data-welcome-anim className="md:col-span-5">
-          <blockquote className="font-display text-lede text-cream/95 leading-snug">
+        <figure data-welcome-anim className="md:col-span-5 readable-card">
+          <blockquote className="font-display text-lede text-cream leading-snug">
             &ldquo;{sabrinaQuote}.&rdquo;
           </blockquote>
           <figcaption className="mt-4 eyebrow text-amber">

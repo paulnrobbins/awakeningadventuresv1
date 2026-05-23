@@ -10,7 +10,7 @@ import { Firefly } from './Firefly';
 import { StarField } from './StarField';
 import { PropertyLayout } from './PropertyLayout';
 import { ForestScene } from './ForestScene';
-import { LakeWater } from './LakeWater';
+import { LakeStage } from './LakeStage';
 import { PontoonBoat } from './PontoonBoat';
 import { TreeBank } from './TreeBank';
 import { WelcomeStage } from './WelcomeStage';
@@ -53,8 +53,10 @@ export function WorldScene() {
       ? 0
       : 0.05;
 
-  const inForest = progress > 0.46 && progress < 0.70;
-  const inLakeRange = progress > 0.58 && progress < 0.78;
+  const inForest = progress > 0.46 && progress < 0.68;
+  // Mount the lake stage early so the water surface fades in as the
+  // camera approaches from the forest rather than popping in
+  const inLakeRange = progress > 0.55 && progress < 0.80;
   const inWelcomeRange = progress > 0.66 && progress < 0.92;
   const inBookRange = progress > 0.86;
 
@@ -90,8 +92,10 @@ export function WorldScene() {
       {inForest && <ForestScene origin={[0, 0, -16]} />}
       {inLakeRange && (
         <>
-          <LakeWater position={[0, -0.3, -34]} size={[280, 280]} />
-          <PontoonBoat startX={-45} endX={45} z={-58} baseY={0.4} period={90} />
+          <LakeStage />
+          {/* Plus the original drifting pontoon way out on the horizon —
+              moving slowly across the lake far behind the moored boat */}
+          <PontoonBoat startX={-50} endX={50} z={-88} baseY={0.35} period={110} />
         </>
       )}
       {inWelcomeRange && <WelcomeStage />}
