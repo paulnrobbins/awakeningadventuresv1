@@ -16,6 +16,7 @@ import { SceneTrails } from '@/components/sections/SceneTrails';
 import { SceneLake } from '@/components/sections/SceneLake';
 import { SceneWelcome } from '@/components/sections/SceneWelcome';
 import { SceneGroups } from '@/components/sections/SceneGroups';
+import { SceneGallery } from '@/components/sections/SceneGallery';
 import { SceneBook } from '@/components/sections/SceneBook';
 import { Footer } from '@/components/sections/Footer';
 
@@ -44,6 +45,7 @@ export default function HomePage() {
         <SceneLake />
         <SceneWelcome />
         <SceneGroups />
+        <SceneGallery />
         <SceneBook />
       </main>
       <Footer />

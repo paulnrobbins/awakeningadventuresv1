@@ -1,5 +1,6 @@
 import { Nav } from '@/components/layout/Nav';
 import { Footer } from '@/components/sections/Footer';
+import { FULL_PROPERTY_BOOKING_URL } from '@/content/accommodations';
 
 export const metadata = { title: 'Group retreats' };
 
@@ -62,14 +63,22 @@ export default function GroupsPage() {
           </ul>
         </section>
 
-        <a
-          href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="cta-primary mt-12"
-        >
-          Plan a small-church retreat
-        </a>
+        <div className="mt-12 flex flex-col md:flex-row gap-8">
+          <a
+            href={FULL_PROPERTY_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-primary"
+          >
+            Reserve the whole 42 acres
+          </a>
+          <a
+            href="mailto:support@awakeningadventuresllc.com"
+            className="cta-primary"
+          >
+            Talk to Anthony first
+          </a>
+        </div>
       </main>
       <Footer />
     </>

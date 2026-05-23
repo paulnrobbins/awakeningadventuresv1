@@ -78,18 +78,20 @@ export function SceneStay() {
               style={{ top: 0 }}
             >
               {hasImages ? (
-                /* Two-column layout: card + carousel. Alternates side. */
+                /* Two-column layout: card + carousel. Same row height by
+                   stretching both children with h-full inside an items-stretch grid. */
                 <div
                   className={cn(
                     'w-full max-w-[88rem] mx-auto',
-                    'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center',
+                    'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch',
                   )}
                 >
-                  {/* Text card */}
+                  {/* Text card — h-full so it matches the carousel height */}
                   <div
                     className={cn(
-                      'lg:col-span-6',
+                      'lg:col-span-6 h-full',
                       'bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10',
+                      'flex flex-col justify-center',
                       isRightAlign ? 'lg:col-start-7 lg:text-right' : '',
                     )}
                   >
@@ -111,14 +113,15 @@ export function SceneStay() {
                     </a>
                   </div>
 
-                  {/* Carousel — swaps to the other side on odd-indexed accommodations */}
+                  {/* Carousel — h-full + min-h removed via inline so it matches the card */}
                   <div className={cn(
-                    'lg:col-span-5',
+                    'lg:col-span-5 h-full',
                     isRightAlign ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-8',
                   )}>
                     <ImageCarousel
                       images={a.images!}
                       altBase={`${a.name} — ${a.kind}`}
+                      className="h-full min-h-0"
                     />
                   </div>
                 </div>

@@ -74,7 +74,7 @@ export function SceneLake() {
         </p>
         <div data-lake-anim className="mt-10 flex flex-col md:flex-row gap-6 md:gap-12">
           <a
-            href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+            href="https://fareharbor.com/embeds/book/awakeningadventures/items/562474/calendar/2026/05/?flow=1217241&language=en-us&full-items=yes&back=https://awakeningadventuresllc.com/island-sunset-pontoon-boat-excursions-on-watts-bar-lake/&g4=yes"
             target="_blank"
             rel="noopener noreferrer"
             className="cta-primary"
@@ -82,14 +82,15 @@ export function SceneLake() {
             Book a sunset pontoon
           </a>
           <a
-            href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:support@awakeningadventuresllc.com?subject=Watts%20Bar%20Lake%20Island%20Camping%20Trip&body=Hi%20Anthony%2C%0A%0AI%27d%20like%20to%20book%20an%20island%20camping%20trip%20on%20Watts%20Bar%20Lake.%20A%20few%20details%3A%0A%0ADates%20I%27m%20considering%3A%0AGroup%20size%3A%0AQuestions%3A%0A%0AThanks%21"
             className="cta-primary"
           >
             Reserve the island campsite
           </a>
         </div>
+        <p data-lake-anim className="font-sans text-caption text-cream/70 mt-4">
+          Lodging guests get $50 off every excursion.
+        </p>
       </div>
     </section>
   );

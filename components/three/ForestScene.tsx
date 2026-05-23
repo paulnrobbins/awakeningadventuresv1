@@ -92,12 +92,18 @@ export function ForestScene({
         <Firefly phase={0} origin={[0, 1.2, -4]} pathWidth={8} period={22} />
       )}
 
-      {/* Mountain prayer shelter — sits to the left of the trail */}
-      <PrayerShelter position={[-7, 0, -6]} rotationY={Math.PI / 7} />
+      {/* Mountain prayer shelter — moved into a clearing right next to
+          the trail and scaled up so it's the focal point of the scene,
+          not a background detail. Faces the camera at a friendly angle. */}
+      <group position={[-4, 0, -3]} rotation={[0, Math.PI / 5, 0]} scale={1.4}>
+        <PrayerShelter />
+      </group>
 
-      {/* Perspective tree platform — sits to the right, just inside the
-          forest, elevated on its red-oak posts */}
-      <PerspectivePlatform position={[8, 0, -10]} rotationY={-Math.PI / 6} />
+      {/* Perspective tree platform — also brought forward and scaled.
+          Sits on the right side of the trail, elevated on its posts. */}
+      <group position={[6, 0, -5]} rotation={[0, -Math.PI / 4, 0]} scale={1.5}>
+        <PerspectivePlatform />
+      </group>
     </group>
   );
 }

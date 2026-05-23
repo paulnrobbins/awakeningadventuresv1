@@ -23,8 +23,8 @@ export default function ContactPage() {
           <div>
             <dt className="eyebrow text-cream/55">Email</dt>
             <dd className="font-sans text-body text-cream mt-2">
-              <a href="mailto:hello@awakeningadventuresllc.com" className="underline underline-offset-4 hover:text-amber">
-                hello@awakeningadventuresllc.com
+              <a href="mailto:support@awakeningadventuresllc.com" className="underline underline-offset-4 hover:text-amber">
+                support@awakeningadventuresllc.com
               </a>
             </dd>
           </div>

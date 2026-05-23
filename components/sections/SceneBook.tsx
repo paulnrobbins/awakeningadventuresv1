@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { sound } from '@/lib/sound';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { ACCOMMODATIONS } from '@/content/accommodations';
+import { ACCOMMODATIONS, FULL_PROPERTY_BOOKING_URL } from '@/content/accommodations';
 
 /**
  * Scene 8 — Come and see.
@@ -98,7 +98,7 @@ export function SceneBook() {
 
         <ul
           data-book-anim
-          className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+          className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8"
           aria-label="Accommodations"
         >
           {ACCOMMODATIONS.map((a) => (
@@ -137,12 +137,51 @@ export function SceneBook() {
               </a>
             </li>
           ))}
+
+          {/* Whole-property card — for retreat leaders / large groups.
+              Visually distinct: amber border, slightly brighter bg, and
+              the "Reserve the whole 42 acres" CTA. */}
+          <li data-card className="group relative">
+            <a
+              href={FULL_PROPERTY_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Reserve the whole 42 acres for your group"
+              className="
+                block relative h-full
+                border-2 border-amber/70 rounded-lg
+                p-7 md:p-8
+                bg-night/95
+                transition-all duration-500 ease-cinematic
+                hover:border-amber hover:-translate-y-1
+                hover:shadow-[0_20px_60px_-20px_rgba(199,122,58,0.55)]
+                focus-visible:border-amber
+                text-left
+              "
+            >
+              <p className="eyebrow text-amber">Whole property</p>
+              <h3 className="font-display text-title text-cream mt-3 leading-[0.95]">
+                The Forty-Two
+              </h3>
+              <p className="font-sans text-body text-cream mt-4 leading-[1.55]">
+                Reserve every cabin, tent, fire pit, and trail on the property
+                for your group. Two-night minimum.
+              </p>
+              <p className="font-sans text-caption text-cream/70 mt-4">
+                Up to ~30 guests
+              </p>
+              <p className="font-display text-lede text-amber mt-8 inline-flex items-center gap-2">
+                Reserve the whole 42 acres
+                <span aria-hidden="true" className="transition-transform duration-500 ease-cinematic group-hover:translate-x-2">→</span>
+              </p>
+            </a>
+          </li>
         </ul>
 
         <p data-book-anim className="font-sans text-body text-cream/55 mt-16 max-w-[44ch] mx-auto">
           Booking opens a new tab to FareHarbor. You can also{' '}
           <a
-            href="mailto:hello@awakeningadventuresllc.com"
+            href="mailto:support@awakeningadventuresllc.com"
             className="underline underline-offset-4 hover:text-amber transition-colors"
           >
             email Anthony directly

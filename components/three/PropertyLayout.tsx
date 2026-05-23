@@ -25,12 +25,21 @@ export function PropertyLayout() {
 
   return (
     <group>
+      {/* Accommodations spread out so each Stay-walk camera shot frames
+          one building cleanly without others stacked behind it.
+          Layout (X = east/west, Z = into property, all in meters):
+            Stargazer at origin (the anchor)
+            Driftwood deep back-right canopy
+            Homestead far left in the prairie clearing
+            Serene Seven way back-left, deeper prairie pitch
+            Shower house far right, near trail entry
+            Perspective platform far back ridge silhouette */}
       <StargazerCabin position={[0, 0, 0]} rotationY={-Math.PI / 8} interiorGlow={0.15} />
 
-      <Treehouse position={[8, 0, -7]} scale={1} glowIntensity={0.08} />
+      <Treehouse position={[22, 0, -16]} scale={1} glowIntensity={0.08} />
 
       <Tent
-        position={[-9, 0, -3]}
+        position={[-22, 0, -6]}
         rotationY={Math.PI / 6}
         hasStove
         glowIntensity={0.08}
@@ -38,18 +47,16 @@ export function PropertyLayout() {
       />
 
       <Tent
-        position={[-12, 0, -10]}
+        position={[-26, 0, -24]}
         rotationY={-Math.PI / 8}
         hasStove={false}
         glowIntensity={0.05}
         canvasColor="#F2E6C5"
       />
 
-      <PerspectivePlatform position={[16, 1.2, -22]} rotationY={Math.PI} />
+      <PerspectivePlatform position={[30, 1.2, -38]} rotationY={Math.PI} />
 
-      {/* Treehouse shower — elevated bathhouse on stilts, sits between
-          the property buildings and the trail entry */}
-      <ShowerHouse position={[-15, 0, 2]} rotationY={Math.PI / 5} glowIntensity={0.15} />
+      <ShowerHouse position={[20, 0, 8]} rotationY={-Math.PI / 4} glowIntensity={0.15} />
 
       {/* Photo billboards — Pattern A. Each wrapped individually so one
           missing image doesn't take down the other. */}

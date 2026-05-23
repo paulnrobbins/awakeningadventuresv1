@@ -7,32 +7,122 @@ import { cn } from '@/lib/utils';
  * Row 1 scrolls right-to-left, Row 2 scrolls left-to-right, at
  * slightly different speeds so they don't pulse in unison.
  *
- * Quotes are extracted from real testimonials in content/reviews.ts —
- * short phrases pulled directly from the verbatim Felicia / Sabrina /
- * Spencer reviews so nothing is fabricated.
+ * All quotes are verbatim from real guests across Airbnb / Hipcamp.
+ * Long reviews are trimmed to the most quotable single line; nothing
+ * is fabricated. Dates intentionally omitted per Paul's direction so
+ * the cards stay timeless.
  */
 
 type Quote = {
   text: string;
   author: string;
+  stay: string;
 };
 
 const ROW_A: Quote[] = [
-  { text: 'Serenity. We loved the serenity of being out in the woods with nature.', author: 'Felicia' },
-  { text: 'It’s just you and nature.', author: 'Sabrina' },
-  { text: 'Anthony was an amazing host.', author: 'Spencer' },
-  { text: 'The sky was beautiful at night.', author: 'Felicia' },
-  { text: 'The showers are so beautifully made — we want to go back just to experience them.', author: 'Sabrina' },
-  { text: 'Anthony and Barb were so inviting.', author: 'Sabrina' },
+  {
+    text: 'Our little family loved our stay and we had so much fun hiking together and camping. The hosts were very welcoming and made us feel very comfortable.',
+    author: 'Lesily P.',
+    stay: 'Homestead',
+  },
+  {
+    text: 'Such a beautiful peaceful property! I can’t believe how amazing the treehouse showers are!',
+    author: 'Leanne K.',
+    stay: 'Homestead',
+  },
+  {
+    text: 'I really enjoyed my stay at the Driftwood Cabin. The hosts were lovely and very accommodating. You can tell a lot of heart and soul was put into the creation of their campground.',
+    author: 'Kali',
+    stay: 'Driftwood',
+  },
+  {
+    text: 'We wish we could have stayed longer — everything was just perfect from the scenery, trails, and the sound of nature.',
+    author: 'Rose',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'Anthony and Barb were incredibly kind and welcoming. Everything was a breeze.',
+    author: 'Victoria',
+    stay: 'Driftwood',
+  },
+  {
+    text: 'Our stay was an absolute peaceful blast. The shower house is something truly spectacular.',
+    author: 'Georgia',
+    stay: 'Homestead',
+  },
+  {
+    text: 'Clean and cute. Loved hearing the crickets all night.',
+    author: 'Isabella',
+    stay: 'Stargazer',
+  },
+  {
+    text: 'Peaceful place to enjoy books and friendly owners. The treehouse showers were amazing.',
+    author: 'Chana C.',
+    stay: 'Homestead',
+  },
+  {
+    text: 'A shower to remember. The best retreat anyone could ask for.',
+    author: 'Lea',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'My wife and I had an amazing time. Anthony and Barb were amazing hosts. The Driftwood treehouse was very cozy.',
+    author: 'Mike',
+    stay: 'Driftwood',
+  },
 ];
 
 const ROW_B: Quote[] = [
-  { text: 'The location is wonderful and quiet.', author: 'Felicia' },
-  { text: 'There is also a dog named Chief who is such a sweetheart.', author: 'Spencer' },
-  { text: 'Barb’s cookies are great.', author: 'Felicia' },
-  { text: 'Amazing people, place, and experience for anyone.', author: 'Sabrina' },
-  { text: 'It is a great escape from a busy city or regular neighborhood.', author: 'Sabrina' },
-  { text: 'Would definitely recommend to anyone wanting a nice night to camp.', author: 'Spencer' },
+  {
+    text: 'Get away from busy life and stay in a unique, comfortable, and enjoyable treehouse. Slept well.',
+    author: 'Nathan M.',
+    stay: 'Driftwood',
+  },
+  {
+    text: 'Serene was the perfect way to describe it.',
+    author: 'Jaime',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'Seriously the best Airbnb I have stayed at, and I will definitely be back.',
+    author: 'Jami',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'This getaway was exactly what I was looking for, and I would definitely go back.',
+    author: 'Katie',
+    stay: 'Stargazer',
+  },
+  {
+    text: 'EXACTLY what we were looking for. We walked the property, relaxed, enjoyed the fire, and slept like a rock.',
+    author: 'Amy',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'Great for the soul and to hear nature.',
+    author: 'Swanhilda',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'Beautiful property with lots of trails. The shower house was really clean and very well stocked.',
+    author: 'Joshua',
+    stay: 'Driftwood',
+  },
+  {
+    text: 'The bed was so cozy nuzzled in the middle of the forest. It made for the best waking experience.',
+    author: 'Sarina',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'Everything you could possibly need was provided. The view is great.',
+    author: 'Bettyann',
+    stay: 'Serene Seven',
+  },
+  {
+    text: 'My only complaint was that I only had to stay one night — I wish I could have been there a week.',
+    author: 'Bryan',
+    stay: 'Serene Seven',
+  },
 ];
 
 function Stars() {
@@ -56,7 +146,9 @@ function Card({ q }: { q: Quote }) {
       >
         &ldquo;{q.text}&rdquo;
       </p>
-      <p className="eyebrow text-amber mt-4">— {q.author}</p>
+      <p className="eyebrow text-amber mt-4">
+        &mdash; {q.author} <span className="text-amber/55">· {q.stay}</span>
+      </p>
     </div>
   );
 }
@@ -77,7 +169,6 @@ function MarqueeRow({
   return (
     <div
       className="relative overflow-hidden w-full"
-      // Edge-fade mask so cards softly enter/exit at the screen edges
       style={{
         maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
@@ -100,13 +191,9 @@ function MarqueeRow({
 export function ReviewMarquee({ className }: { className?: string }) {
   return (
     <div className={cn('relative w-full space-y-4 py-2', className)}>
-      <MarqueeRow items={ROW_A} direction="left" durationSeconds={70} />
-      <MarqueeRow items={ROW_B} direction="right" durationSeconds={85} />
+      <MarqueeRow items={ROW_A} direction="left" durationSeconds={95} />
+      <MarqueeRow items={ROW_B} direction="right" durationSeconds={115} />
 
-      {/* The keyframes are inlined so the component is self-contained —
-          works without touching globals.css. Each row's animation
-          translates by exactly half its width (since we duplicated
-          the items), making the loop seamless. */}
       <style>{`
         @keyframes marquee-left {
           0%   { transform: translateX(0); }

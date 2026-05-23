@@ -38,7 +38,7 @@ export const ACCOMMODATIONS: Accommodation[] = [
       '/images/stargazer/4.jpg',
       '/images/stargazer/5.jpg',
     ],
-    // bookingUrl: 'https://fareharbor.com/awakeningadventures/items/XXXX/',
+    bookingUrl: 'https://awakeningadventuresllc.com/stargazer-unique-glamping-experience/',
   },
   {
     id: 'driftwood',
@@ -56,6 +56,7 @@ export const ACCOMMODATIONS: Accommodation[] = [
       '/images/driftwood/5.jpg',
       '/images/driftwood/6.jpg',
     ],
+    bookingUrl: 'https://awakeningadventuresllc.com/driftwood-treehouse-cabin/',
   },
   {
     id: 'homestead',
@@ -73,6 +74,7 @@ export const ACCOMMODATIONS: Accommodation[] = [
       '/images/homestead/5.jpg',
       '/images/homestead/6.jpg',
     ],
+    bookingUrl: 'https://awakeningadventuresllc.com/homestead-life-grandviewtn/',
   },
   {
     id: 'serene-seven',
@@ -90,5 +92,14 @@ export const ACCOMMODATIONS: Accommodation[] = [
       '/images/serene-seven/5.jpg',
       '/images/serene-seven/6.jpg',
     ],
+    bookingUrl: 'https://awakeningadventuresllc.com/serene-seven-romantic-getaway/',
   },
 ];
+
+/**
+ * Whole-property booking — used on the Groups page and the home
+ * SceneGroups CTA when a small church / pastor / retreat leader wants
+ * to reserve the entire 42 acres.
+ */
+export const FULL_PROPERTY_BOOKING_URL =
+  'https://awakeningadventuresllc.com/sanctuary-forest-campground-retreat/';

@@ -5,6 +5,7 @@ import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { sound } from '@/lib/sound';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ReviewMarquee } from '@/components/ui/ReviewMarquee';
+import { FULL_PROPERTY_BOOKING_URL } from '@/content/accommodations';
 
 /**
  * Scene 7 — Groups. Small-church retreat conversion path.
@@ -76,12 +77,12 @@ export function SceneGroups() {
         </p>
         <a
           data-groups-anim
-          href={process.env.NEXT_PUBLIC_FAREHARBOR_URL ?? '#book'}
+          href={FULL_PROPERTY_BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="cta-primary mt-10"
         >
-          Plan a small-church retreat
+          Reserve the whole 42 acres
         </a>
       </div>
 

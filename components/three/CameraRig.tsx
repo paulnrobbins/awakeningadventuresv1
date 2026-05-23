@@ -33,18 +33,23 @@ const KEYFRAMES: CameraKeyframe[] = [
   { t: 0.00,  pos: [0,    1.4,  6.0], target: [0,   1.0,   0] },
   // 1 - Sanctuary — pull up and back over the property
   { t: 0.14,  pos: [4,    8.0,  14],  target: [0,   1.0,  -3] },
-  // 2 - Stay enters at the Stargazer up close
-  { t: 0.26,  pos: [-2.6, 2.0,  3.0], target: [0,   1.4,   0] },
-  // 3 - Stay > Driftwood treehouse
-  { t: 0.32,  pos: [4.6,  3.0, -1.0], target: [8,   3.6,  -7] },
-  // 4 - Stay > Homestead tent
-  { t: 0.38,  pos: [-4.8, 2.2,  0.4], target: [-9,  1.0,  -3] },
-  // 5 - Stay > Serene-Seven tent (further out, prairie)
-  { t: 0.44,  pos: [-7.4, 2.6, -3.8], target: [-12, 1.0, -10] },
-  // 5.5 - Shower — pull over to the elevated bathhouse on stilts
-  { t: 0.48,  pos: [-10,  2.8,  6],   target: [-15, 2.2,   2] },
-  // 6 - Trails — descend to ground level
-  { t: 0.54,  pos: [0,    0.9, -4],   target: [0,   1.2, -10] },
+  // 2 - Stay enters at the Stargazer up close — building at origin
+  { t: 0.26,  pos: [-3.0, 1.8,  4.0], target: [0,   1.2,   0] },
+  // 3 - Stay > Driftwood treehouse — building at [22, 0, -16]
+  //     Camera pulls past Stargazer to frame Driftwood alone
+  { t: 0.32,  pos: [16,   4.0, -6.0], target: [22,  4.0, -16] },
+  // 4 - Stay > Homestead tent — building at [-22, 0, -6]
+  //     Camera swings far left across the property to frame Homestead
+  { t: 0.38,  pos: [-15,  2.4,  2.0], target: [-22, 1.2,  -6] },
+  // 5 - Stay > Serene-Seven tent — building at [-26, 0, -24]
+  //     Camera moves further back-left across the prairie
+  { t: 0.44,  pos: [-19,  2.6, -16],  target: [-26, 1.0, -24] },
+  // 5.5 - Shower — building at [20, 0, 8]. Camera flies across to it.
+  { t: 0.48,  pos: [14,   3.6, 16],   target: [20,  3.0,   8] },
+  // 6 - Trails — eye-level on the trail, framing the prayer shelter
+  //     on the left and the perspective platform on the right.
+  //     Forest scene origin is [0, 0, -16] so positions are offset.
+  { t: 0.54,  pos: [-2,   1.6,  -8],  target: [1,   1.8, -20] },
   // 7 - Lake — slightly elevated shoreside view. Dock leads diagonally
   //     into the lake on the left, moored pontoon is on the right just
   //     past the dock's lakeside end, far shore woodline + island

@@ -26,22 +26,23 @@ export default function LodgingPage() {
                 key={a.id}
                 className={
                   hasImages
-                    ? `grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${isReverse ? '' : ''}`
+                    ? 'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch'
                     : 'border border-cream/15 rounded-xl p-8 bg-night/85'
                 }
               >
                 {hasImages ? (
                   <>
-                    <div className={`lg:col-span-5 ${isReverse ? 'lg:order-2 lg:col-start-8' : ''}`}>
+                    <div className={`lg:col-span-5 h-full ${isReverse ? 'lg:order-2 lg:col-start-8' : ''}`}>
                       <ImageCarousel
                         images={a.images!}
                         altBase={`${a.name} — ${a.kind}`}
+                        className="h-full min-h-0"
                       />
                     </div>
                     <div
-                      className={`lg:col-span-6 ${isReverse ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7'}`}
+                      className={`lg:col-span-6 h-full ${isReverse ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7'}`}
                     >
-                      <div className="bg-night/90 border border-cream/20 rounded-xl p-8 md:p-10">
+                      <div className="bg-night/90 border border-cream/20 rounded-xl p-8 md:p-10 h-full flex flex-col justify-center">
                         <p className="eyebrow text-amber mb-2">{a.kind}</p>
                         <h2 className="font-display text-title text-cream">{a.name}</h2>
                         <p className="editorial mt-4 text-cream">{a.hook}</p>

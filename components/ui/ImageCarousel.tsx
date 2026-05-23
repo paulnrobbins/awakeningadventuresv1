@@ -60,9 +60,11 @@ export function ImageCarousel({
   return (
     <div
       className={cn(
-        'relative w-full aspect-[3/4] md:aspect-[4/5]',
-        'rounded-xl overflow-hidden bg-cream/10',
-        'border border-cream/15',
+        // Default sizing is responsive — parent can override via className.
+        // The minHeight ensures the carousel never collapses if the
+        // sibling text card is very short.
+        'relative w-full overflow-hidden rounded-xl bg-cream/10 border border-cream/15',
+        'min-h-[26rem] md:min-h-[32rem]',
         className,
       )}
       onMouseEnter={() => setPaused(true)}

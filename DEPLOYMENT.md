@@ -80,5 +80,5 @@ vercel --prod      # manual production push
 
 - `awakeningadventures` FareHarbor account — Anthony controls bookings, refunds, payouts. The site only links to it.
 - DNS — wherever the domain registrar sits. Vercel does not register domains for you.
-- Email (`hello@awakeningadventuresllc.com`) — set up separately (Google Workspace, Fastmail, etc.). The site references it but doesn't host it.
+- Email (`support@awakeningadventuresllc.com`) — set up separately (Google Workspace, Fastmail, etc.). The site references it but doesn't host it.
 - Analytics — `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var is wired; sign up at plausible.io and paste the domain to start collecting. Optional.

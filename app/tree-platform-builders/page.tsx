@@ -113,7 +113,7 @@ export default function TreePlatformBuildersPage() {
             looking at. We&rsquo;ll come walk it with you.
           </p>
           <a
-            href="mailto:hello@awakeningadventuresllc.com"
+            href="mailto:support@awakeningadventuresllc.com"
             className="cta-primary mt-8"
           >
             Request a consultation
