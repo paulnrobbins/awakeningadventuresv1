@@ -38,8 +38,8 @@ export function getGltfLoader(): GLTFLoader {
 /** Attach KTX2 once we have an actual renderer. Called from WorldCanvas. */
 export function attachKtx2(renderer: THREE.WebGLRenderer) {
   const loader = getGltfLoader();
-  // @ts-expect-error - dracoLoader exposes setKTX2Loader via gltf instance
-  if (loader.ktx2Loader) return;
+  // Idempotent — skip if a KTX2Loader has already been attached to this GLTF loader.
+  if ((loader as unknown as { ktx2Loader?: unknown }).ktx2Loader) return;
 
   const ktx2 = new KTX2Loader()
     .setTranscoderPath('https://unpkg.com/three@0.169.0/examples/jsm/libs/basis/')
