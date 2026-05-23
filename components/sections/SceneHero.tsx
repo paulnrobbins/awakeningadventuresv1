@@ -58,10 +58,10 @@ export function SceneHero() {
         <p data-hero-anim="eyebrow" className="eyebrow text-cream/80 mb-4">
           Grandview, Tennessee
         </p>
-        <h1 className="font-display text-hero text-cream">
-          <span data-hero-anim="line1" className="block">Because&nbsp;God</span>
-          <span data-hero-anim="line2" className="block">is&nbsp;the&nbsp;Greatest</span>
-          <span data-hero-anim="line3" className="block">Adventure&nbsp;of&nbsp;ALL.</span>
+        <h1 className="font-display text-hero text-cream max-w-full" style={{ wordBreak: 'normal', overflowWrap: 'break-word' }}>
+          <span data-hero-anim="line1" className="block">Because God</span>
+          <span data-hero-anim="line2" className="block">is the Greatest</span>
+          <span data-hero-anim="line3" className="block">Adventure of ALL.</span>
         </h1>
         <p data-hero-anim="sub" className="editorial mt-8 text-cream">
           Forty-two acres. Twenty minutes from the Watts Bar Lake marina.

@@ -38,11 +38,12 @@ const config: Config = {
       sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
     },
     fontSize: {
-      // Modular scale anchored to the hero (16vw) and stepping down by
-      // ~1.333. Body sits at 1.0625rem (17px) for editorial comfort.
-      'hero': ['clamp(4rem, 16vw, 18rem)', { lineHeight: '0.88', letterSpacing: '-0.04em' }],
-      'display': ['clamp(2.5rem, 7vw, 6rem)', { lineHeight: '0.95', letterSpacing: '-0.03em' }],
-      'title': ['clamp(1.75rem, 3.2vw, 3rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+      // Modular scale. Hero clamp tightened from 16vw→10vw so the
+      // longest line ("Adventure of ALL.") fits inside the viewport
+      // on every screen width. Body sits at 1.0625rem (17px).
+      'hero': ['clamp(2.75rem, 10vw, 9rem)', { lineHeight: '0.92', letterSpacing: '-0.035em' }],
+      'display': ['clamp(2.25rem, 6vw, 5rem)', { lineHeight: '0.96', letterSpacing: '-0.025em' }],
+      'title': ['clamp(1.65rem, 3vw, 2.75rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
       'lede': ['clamp(1.125rem, 1.6vw, 1.5rem)', { lineHeight: '1.45', letterSpacing: '-0.005em' }],
       'body': ['1.0625rem', { lineHeight: '1.62' }],
       'caption': ['0.8125rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],

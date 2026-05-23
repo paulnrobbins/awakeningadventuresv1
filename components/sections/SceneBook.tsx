@@ -110,24 +110,24 @@ export function SceneBook() {
                 aria-label={a.ctaLabel}
                 className="
                   block relative h-full
-                  border border-cream/15 rounded-lg
+                  border border-cream/30 rounded-lg
                   p-7 md:p-8
-                  backdrop-blur-md bg-night/40
+                  bg-night/95
                   transition-all duration-500 ease-cinematic
-                  hover:border-amber hover:bg-night/55 hover:-translate-y-1
+                  hover:border-amber hover:-translate-y-1
                   hover:shadow-[0_20px_60px_-20px_rgba(199,122,58,0.45)]
                   focus-visible:border-amber
                   text-left
                 "
               >
-                <p className="eyebrow text-amber/80">{a.kind}</p>
+                <p className="eyebrow text-amber">{a.kind}</p>
                 <h3 className="font-display text-title text-cream mt-3 leading-[0.95]">
                   {a.name}
                 </h3>
-                <p className="font-sans text-body text-cream/80 mt-4 leading-[1.55]">
+                <p className="font-sans text-body text-cream mt-4 leading-[1.55]">
                   {a.hook}
                 </p>
-                <p className="font-sans text-caption text-cream/55 mt-4">
+                <p className="font-sans text-caption text-cream/70 mt-4">
                   {a.capacity}
                 </p>
                 <p className="font-display text-lede text-amber mt-8 inline-flex items-center gap-2">

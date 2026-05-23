@@ -67,7 +67,7 @@ export function SceneStay() {
           walk through all four accommodations in a comfortable pace.
           400vh = ~4 screens of scroll for the Stay range. */}
       <div className="relative min-h-[400vh]">
-        <p className="eyebrow text-cream/55 mb-4 sticky top-32 z-[var(--z-content)] px-section-x">
+        <p className="eyebrow text-cream mb-4 sticky top-32 z-[var(--z-content)] px-section-x">
           Stay
         </p>
 
@@ -89,16 +89,16 @@ export function SceneStay() {
             <div
               className={
                 i % 2 === 0
-                  ? 'max-w-[36rem] ml-0'
-                  : 'max-w-[36rem] ml-auto text-right'
+                  ? 'max-w-[40rem] ml-0 bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
+                  : 'max-w-[40rem] ml-auto text-right bg-night/92 border border-cream/25 rounded-xl p-8 md:p-10'
               }
             >
-              <p className="eyebrow text-amber/80 mb-3">{a.kind}</p>
+              <p className="eyebrow text-amber mb-3">{a.kind}</p>
               <h3 className="font-display text-display text-cream leading-[0.95]">
                 {a.name}
               </h3>
-              <p className="editorial mt-6">{a.hook}</p>
-              <p className="mt-3 font-sans text-caption text-cream/55">
+              <p className="editorial mt-6 text-cream">{a.hook}</p>
+              <p className="mt-3 font-sans text-caption text-cream/70">
                 {a.capacity}
               </p>
               <a
