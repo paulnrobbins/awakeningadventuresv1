@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
+import { setCameraOverride, STAY_TARGETS } from '@/lib/cameraOverride';
 
 /**
  * Shower in the Trees — bonus scene between Stay and Trails. The
@@ -25,17 +26,32 @@ export function SceneShower() {
       return;
     }
 
+    const showerTarget = STAY_TARGETS['shower'];
+
     const trig = ScrollTrigger.create({
       trigger: ref.current,
       start: 'top 70%',
       end: 'bottom 30%',
       toggleActions: 'play reverse play reverse',
-      onEnter: () => gsap.to(items, { opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: 'power3.out' }),
-      onLeaveBack: () => gsap.to(items, { opacity: 0, y: 28, duration: 0.6, ease: 'power2.in' }),
+      onEnter: () => {
+        gsap.to(items, { opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: 'power3.out' });
+        if (showerTarget) setCameraOverride(showerTarget);
+      },
+      onEnterBack: () => {
+        if (showerTarget) setCameraOverride(showerTarget);
+      },
+      onLeave: () => setCameraOverride(null),
+      onLeaveBack: () => {
+        gsap.to(items, { opacity: 0, y: 28, duration: 0.6, ease: 'power2.in' });
+        setCameraOverride(null);
+      },
     });
     gsap.set(items, { opacity: 0, y: 28 });
 
-    return () => { trig.kill(); };
+    return () => {
+      trig.kill();
+      setCameraOverride(null);
+    };
   }, [reduced]);
 
   return (

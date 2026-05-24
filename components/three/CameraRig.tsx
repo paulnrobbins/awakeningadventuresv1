@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { getLenis } from '@/lib/lenis';
 import { clamp } from '@/lib/utils';
+import { getCameraOverride } from '@/lib/cameraOverride';
 
 /**
  * Camera rig — drives the camera position + look-target as a function of
@@ -96,8 +97,29 @@ export function CameraRig({ shake = 0 }: CameraRigProps) {
   }, []);
 
   useFrame((state, delta) => {
+    // OVERRIDE PATH — if a Scene component has set a camera target,
+    // use that directly. Bypasses the progress-based lerp entirely so
+    // ScrollTrigger-driven camera moves (e.g. SceneStay's per-card
+    // transitions) are perfectly synced with the DOM card fade-ins.
+    const override = getCameraOverride();
+    if (override) {
+      tmpPos.current.set(override.pos[0], override.pos[1], override.pos[2]);
+      tmpTarget.current.set(override.target[0], override.target[1], override.target[2]);
+
+      if (shake > 0) {
+        const t2 = state.clock.getElapsedTime();
+        tmpPos.current.x += Math.sin(t2 * 1.8) * 0.04 * shake;
+        tmpPos.current.y += Math.cos(t2 * 1.3) * 0.03 * shake;
+      }
+
+      camera.position.lerp(tmpPos.current, 1 - Math.pow(0.0001, delta));
+      currentTarget.current.lerp(tmpTarget.current, 1 - Math.pow(0.0001, delta));
+      camera.lookAt(currentTarget.current);
+      return;
+    }
+
+    // PROGRESS PATH — keyframe lerp for every scene except Stay.
     const p = clamp(progress.current, 0, 1);
-    // Find the bracketing keyframes for current progress
     let i = 0;
     for (let k = 0; k < KEYFRAMES.length - 1; k++) {
       if (p >= KEYFRAMES[k].t && p <= KEYFRAMES[k + 1].t) {
